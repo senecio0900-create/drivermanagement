@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance History - JourneoLink Driver</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/history.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body data-page="history">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <img src="../assets/logo.png" alt="JourneoLink Logo" class="logo">
+            <span class="brand-name">JOURNEO<span class="brand-link">LINK</span> <span class="brand-driver">DRIVER</span></span>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <span class="user-name">Jenn Mercado</span>
+                <span class="user-email">jennmercado@email.com</span>
+            </div>
+            <img src="../assets/user-avatar.png" alt="User Avatar" class="user-avatar">
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header" id="menuToggle" role="button" tabindex="0" aria-label="Toggle sidebar">
+            <i class="fa-solid fa-grip"></i> MENU
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <a href="dashboard.html" class="nav-item" data-page="dashboard">
+                    <span class="icon"><i class="fa-solid fa-grip"></i></span>
+                    <span class="nav-text">Dashboard</span> 
+                </a>
+                <a href="schedule.html" class="nav-item" data-page="schedule">
+                    <span class="icon"><i class="fa-solid fa-calendar-days"></i></span>
+                    <span class="nav-text">Schedule</span>
+                </a>
+                <a href="messages.html" class="nav-item" data-page="messages">
+                    <span class="icon"><i class="fa-solid fa-message"></i></span>
+                    <span class="nav-text">Messages</span>
+                </a>
+                <a href="wallet.html" class="nav-item" data-page="wallet">
+                    <span class="icon"><i class="fa-solid fa-wallet"></i></span>
+                    <span class="nav-text">My Wallet</span>
+                </a>
+                <a href="history.html" class="nav-item" data-page="history">
+                    <span class="icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                    <span class="nav-text">Compliance History</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    <i class="fa-solid fa-gear"></i> GENERAL
+                </div>
+                <a href="profile.html" class="nav-item" data-page="profile">
+                    <span class="icon"><i class="fa-solid fa-user"></i></span>
+                    <span class="nav-text">Profile</span>
+                </a>
+                <a href="#" class="nav-item" id="logoutBtn">
+                    <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                    <span class="nav-text">Logout</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="page-header">
+            <h1>Compliance History</h1>
+            <p class="page-subtitle">Track and manage your compliance records</p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="history-tabs">
+            <button class="history-tab active" data-tab="booking-records">Booking Records</button>
+            <button class="history-tab" data-tab="passenger-feedback">Passenger Feedback</button>
+            <button class="history-tab" data-tab="reports-complaints">Reports/Complaints</button>
+        </div>
+
+        <!-- Tab Content Container -->
+        <div class="tab-content-container">
+            
+            <!-- BOOKING RECORDS TAB -->
+            <div class="tab-content active" id="booking-records">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">Total Bookings</div>
+                        <div class="stat-value">1,247</div>
+                        <div class="stat-change positive">+ 12.5%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">Completed</div>
+                        <div class="stat-value">1,180</div>
+                        <div class="stat-change positive">+ 94.6%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">Cancelled</div>
+                        <div class="stat-value">67</div>
+                        <div class="stat-change negative">- 4.5%</div>
+                    </div>
+                </div>
+
+                <!-- Recent Booking Records Table -->
+                <div class="table-section">
+                    <h2 class="section-title">Recent Booking Records</h2>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>NAME</th>
+                                    <th>PASSENGER</th>
+                                    <th>DATE</th>
+                                    <th>FARE</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>01</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Commonwealth to QCU(Batasan)</td>
+                                    <td>2025-10-15</td>
+                                    <td>₱250</td>
+                                    <td><span class="status-badge completed">COMPLETED</span></td>
+                                </tr>
+                                <tr>
+                                    <td>01</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Commonwealth to QCU(Batasan)</td>
+                                    <td>2025-10-15</td>
+                                    <td>₱250</td>
+                                    <td><span class="status-badge completed">COMPLETED</span></td>
+                                </tr>
+                                <tr>
+                                    <td>01</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Commonwealth to QCU(Batasan)</td>
+                                    <td>2025-10-15</td>
+                                    <td>₱250</td>
+                                    <td><span class="status-badge cancelled">CANCELLED</span></td>
+                                </tr>
+                                <tr>
+                                    <td>01</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Commonwealth to QCU(Batasan)</td>
+                                    <td>2025-10-15</td>
+                                    <td>₱250</td>
+                                    <td><span class="status-badge completed">COMPLETED</span></td>
+                                </tr>
+                                <tr>
+                                    <td>01</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Commonwealth to QCU(Batasan)</td>
+                                    <td>2025-10-15</td>
+                                    <td>₱250</td>
+                                    <td><span class="status-badge completed">COMPLETED</span></td>
+                                </tr>
+                                <tr>
+                                    <td>01</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Commonwealth to QCU(Batasan)</td>
+                                    <td>2025-10-15</td>
+                                    <td>₱250</td>
+                                    <td><span class="status-badge completed">COMPLETED</span></td>
+                                </tr>
+                                <tr>
+                                    <td>01</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Commonwealth to QCU(Batasan)</td>
+                                    <td>2025-10-15</td>
+                                    <td>₱250</td>
+                                    <td><span class="status-badge completed">COMPLETED</span></td>
+                                </tr>
+                                <tr>
+                                    <td>01</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Commonwealth to QCU(Batasan)</td>
+                                    <td>2025-10-15</td>
+                                    <td>₱250</td>
+                                    <td><span class="status-badge completed">COMPLETED</span></td>
+                                </tr>
+                                <tr>
+                                    <td>01</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Commonwealth to QCU(Batasan)</td>
+                                    <td>2025-10-15</td>
+                                    <td>₱250</td>
+                                    <td><span class="status-badge completed">COMPLETED</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASSENGER FEEDBACK TAB -->
+            <div class="tab-content" id="passenger-feedback">
+                <!-- Stats Cards -->
+                <div class="stats-grid four-cols">
+                    <div class="stat-card">
+                        <div class="stat-header">Average Rating</div>
+                        <div class="stat-value">4.7</div>
+                        <div class="stat-change positive">+ 0.3%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">Total Reviews</div>
+                        <div class="stat-value">892</div>
+                        <div class="stat-change positive">+ 15.2%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">5-Star Ratings</div>
+                        <div class="stat-value">645</div>
+                        <div class="stat-change negative">- 72.3%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">This Month</div>
+                        <div class="stat-value">124</div>
+                        <div class="stat-change positive">+ 9.7%</div>
+                    </div>
+                </div>
+
+                <!-- Recent Passenger Feedback -->
+                <div class="feedback-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Passenger Feedback</h2>
+                        <div class="filter-dropdown">
+                            <select id="ratingFilter" class="filter-select">
+                                <option value="all">All Ratings</option>
+                                <option value="5">5 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="2">2 Stars</option>
+                                <option value="1">1 Star</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="feedback-list">
+                        <div class="feedback-item">
+                            <div class="feedback-avatar">BR</div>
+                            <div class="feedback-content">
+                                <div class="feedback-header">
+                                    <div class="feedback-info">
+                                        <h3 class="feedback-name">Brave Buenafe</h3>
+                                        <div class="feedback-stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="feedback-meta">
+                                        <span class="feedback-route">Route: Commonwealth to QCU(Batasan)</span>
+                                        <span class="feedback-date">Oct 15, 2025</span>
+                                    </div>
+                                </div>
+                                <p class="feedback-text">"Excellent service! The driver was very professional and the bus was clean and comfortable"</p>
+                            </div>
+                        </div>
+
+                        <div class="feedback-item">
+                            <div class="feedback-avatar">BR</div>
+                            <div class="feedback-content">
+                                <div class="feedback-header">
+                                    <div class="feedback-info">
+                                        <h3 class="feedback-name">Brave Buenafe</h3>
+                                        <div class="feedback-stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="feedback-meta">
+                                        <span class="feedback-route">Route: Commonwealth to QCU(Batasan)</span>
+                                        <span class="feedback-date">Oct 15, 2025</span>
+                                    </div>
+                                </div>
+                                <p class="feedback-text">"Excellent service! The driver was very professional and the bus was clean and comfortable"</p>
+                            </div>
+                        </div>
+
+                        <div class="feedback-item">
+                            <div class="feedback-avatar">BR</div>
+                            <div class="feedback-content">
+                                <div class="feedback-header">
+                                    <div class="feedback-info">
+                                        <h3 class="feedback-name">Brave Buenafe</h3>
+                                        <div class="feedback-stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="feedback-meta">
+                                        <span class="feedback-route">Route: Commonwealth to QCU(Batasan)</span>
+                                        <span class="feedback-date">Oct 15, 2025</span>
+                                    </div>
+                                </div>
+                                <p class="feedback-text">"Excellent service! The driver was very professional and the bus was clean and comfortable"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REPORTS/COMPLAINTS TAB -->
+            <div class="tab-content" id="reports-complaints">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">Total Complaints</div>
+                        <div class="stat-value">4.7</div>
+                        <div class="stat-change positive">+ 0.3%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">Resolve</div>
+                        <div class="stat-value">892</div>
+                        <div class="stat-change positive">+ 15.2%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">Pending</div>
+                        <div class="stat-value">645</div>
+                        <div class="stat-change negative">- 72.3%</div>
+                    </div>
+                </div>
+
+                <!-- Recent Reports & Complaints Table -->
+                <div class="table-section">
+                    <h2 class="section-title">Recent Reports & Complaints</h2>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>PASSENGER</th>
+                                    <th>COMPLAINT TYPE</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>DATE</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>C001</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Service Delay</td>
+                                    <td>Bus arrived 20mins late...</td>
+                                    <td>2025-10-15</td>
+                                    <td><button class="action-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>C001</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Service Delay</td>
+                                    <td>Bus arrived 20mins late...</td>
+                                    <td>2025-10-15</td>
+                                    <td><button class="action-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>C001</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Service Delay</td>
+                                    <td>Bus arrived 20mins late...</td>
+                                    <td>2025-10-15</td>
+                                    <td><button class="action-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>C001</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Service Delay</td>
+                                    <td>Bus arrived 20mins late...</td>
+                                    <td>2025-10-15</td>
+                                    <td><button class="action-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>C001</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Service Delay</td>
+                                    <td>Bus arrived 20mins late...</td>
+                                    <td>2025-10-15</td>
+                                    <td><button class="action-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>C001</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Service Delay</td>
+                                    <td>Bus arrived 20mins late...</td>
+                                    <td>2025-10-15</td>
+                                    <td><button class="action-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>C001</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Service Delay</td>
+                                    <td>Bus arrived 20mins late...</td>
+                                    <td>2025-10-15</td>
+                                    <td><button class="action-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>C001</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Service Delay</td>
+                                    <td>Bus arrived 20mins late...</td>
+                                    <td>2025-10-15</td>
+                                    <td><button class="action-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>C001</td>
+                                    <td>Brave Buenafe</td>
+                                    <td>Service Delay</td>
+                                    <td>Bus arrived 20mins late...</td>
+                                    <td>2025-10-15</td>
+                                    <td><button class="action-btn">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Report Details Modal -->
+    <div class="report-modal" id="reportDetailsModal">
+        <div class="report-modal-overlay"></div>
+        <div class="report-modal-content">
+            <div class="report-modal-header">
+                <h2>Report Details</h2>
+                <button class="report-modal-close" id="closeReportModal" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="report-modal-body">
+                <!-- Complaint ID Header -->
+                <div class="complaint-id-section">
+                    <div class="complaint-id-label">Complaint ID</div>
+                    <div class="complaint-id-value" id="modalComplaintId">C001</div>
+                    <div class="complaint-date">
+                        <i class="fa-regular fa-clock"></i>
+                        <span id="modalComplaintDate">Date: 2025-10-15 14:30</span>
+                    </div>
+                </div>
+
+                <!-- Passenger and Route Info -->
+                <div class="info-grid">
+                    <div class="info-field">
+                        <div class="info-label">
+                            <i class="fa-solid fa-user"></i>
+                            Passenger
+                        </div>
+                        <div class="info-value" id="modalPassenger">Brave Buenafe</div>
+                    </div>
+                    <div class="info-field">
+                        <div class="info-label">
+                            <i class="fa-solid fa-route"></i>
+                            Route
+                        </div>
+                        <div class="info-value" id="modalRoute">Metro Manila to Quezon City</div>
+                    </div>
+                </div>
+
+                <!-- Complaint Type -->
+                <div class="detail-field">
+                    <div class="detail-label">
+                        <i class="fa-solid fa-file-lines"></i>
+                        Complaint Type
+                    </div>
+                    <div class="detail-value" id="modalComplaintType">Service Delay</div>
+                </div>
+
+                <!-- Description -->
+                <div class="detail-field">
+                    <div class="detail-label">
+                        <i class="fa-solid fa-align-left"></i>
+                        Description
+                    </div>
+                    <div class="detail-description" id="modalDescription">
+                        Bus arrived 20 minutes late. This caused me to miss an important meeting. The driver did not provide any updates or apology.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Modal -->
+    <div class="modal" id="logoutModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content logout-modal-content">
+            <button class="modal-close-btn" id="closeLogoutModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="logout-modal-body">
+                <h3 class="logout-modal-title">Confirm Action</h3>
+                <p class="logout-modal-text">Are you sure you want to leave?</p>
+                <div class="logout-modal-actions">
+                    <button class="btn-logout-confirm" id="confirmLogout">Confirm</button>
+                    <button class="btn-logout-cancel" id="cancelLogout">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/layout.js"></script>
+    <script src="../js/history.js"></script>
+</body>
+</html>

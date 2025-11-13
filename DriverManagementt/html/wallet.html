@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wallet - JourneoLink Driver</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/wallet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body data-page="wallet">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <img src="../assets/logo.png" alt="JourneoLink Logo" class="logo">
+            <span class="brand-name">JOURNEO<span class="brand-link">LINK</span> <span class="brand-driver">DRIVER</span></span>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <span class="user-name">Jenn Mercado</span>
+                <span class="user-email">jennmercado@email.com</span>
+            </div>
+            <img src="../assets/user-avatar.png" alt="User Avatar" class="user-avatar">
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header" id="menuToggle" role="button" tabindex="0" aria-label="Toggle sidebar">
+            <i class="fa-solid fa-grip"></i> MENU
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <a href="dashboard.html" class="nav-item" data-page="dashboard">
+                    <span class="icon"><i class="fa-solid fa-grip"></i></span>
+                    <span class="nav-text">Dashboard</span> 
+                </a>
+                <a href="schedule.html" class="nav-item" data-page="schedule">
+                    <span class="icon"><i class="fa-solid fa-calendar-days"></i></span>
+                    <span class="nav-text">Schedule</span>
+                </a>
+                <a href="messages.html" class="nav-item" data-page="messages">
+                    <span class="icon"><i class="fa-solid fa-message"></i></span>
+                    <span class="nav-text">Messages</span>
+                </a>
+                <a href="wallet.html" class="nav-item" data-page="wallet">
+                    <span class="icon"><i class="fa-solid fa-wallet"></i></span>
+                    <span class="nav-text">My Wallet</span>
+                </a>
+                <a href="history.html" class="nav-item" data-page="history">
+                    <span class="icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                    <span class="nav-text">Compliance History</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    <i class="fa-solid fa-gear"></i> GENERAL
+                </div>
+                <a href="profile.html" class="nav-item" data-page="profile">
+                    <span class="icon"><i class="fa-solid fa-user"></i></span>
+                    <span class="nav-text">Profile</span>
+                </a>
+                <a href="#" class="nav-item" id="logoutBtn">
+                    <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                    <span class="nav-text">Logout</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Total Balance Card -->
+        <div class="balance-card">
+            <div class="balance-content">
+                <div class="balance-info">
+                    <div class="balance-label">Total Balance</div>
+                    <div class="balance-amount" id="totalBalance">₱2,450.00</div>
+                    
+                    <!-- Period Filter Tabs -->
+                    <div class="period-tabs">
+                        <button class="period-tab active" data-period="7days">Last 7 Days</button>
+                        <button class="period-tab" data-period="30days">Last 30 Days</button>
+                        <button class="period-tab" data-period="alltime">All Time</button>
+                    </div>
+                </div>
+                <div class="balance-decoration">
+                    <div class="circle-decoration"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="wallet-stats">
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-peso-sign"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value" id="dailyAverage">₱1042.86</div>
+                    <div class="stat-label">Daily Average</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fa-solid fa-receipt"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value" id="totalTransactions">10</div>
+                    <div class="stat-label">Total Transactions</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon yellow">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value" id="highestEarning">₱1200.00</div>
+                    <div class="stat-label">Highest Earning</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earning History Section -->
+        <div class="earning-history">
+            <div class="section-header">
+                <h2>Earning History</h2>
+                <p class="section-subtitle" id="historySubtitle">Last 7 days of transactions</p>
+            </div>
+
+            <div class="transactions-list" id="transactionsList">
+                <!-- Transaction items will be dynamically inserted here -->
+                <div class="transaction-item">
+                    <div class="transaction-icon">
+                        <i class="fa-solid fa-car"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-title">Trip Earnings</div>
+                        <div class="transaction-route">Quezon City to Makati</div>
+                        <div class="transaction-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 2025-11-01</span>
+                            <span><i class="fa-regular fa-clock"></i> 14:30</span>
+                        </div>
+                    </div>
+                    <div class="transaction-amount positive">+ ₱450.00</div>
+                </div>
+
+                <div class="transaction-item">
+                    <div class="transaction-icon">
+                        <i class="fa-solid fa-car"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-title">Trip Earnings</div>
+                        <div class="transaction-route">Quezon City to Makati</div>
+                        <div class="transaction-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 2025-11-01</span>
+                            <span><i class="fa-regular fa-clock"></i> 14:30</span>
+                        </div>
+                    </div>
+                    <div class="transaction-amount positive">+ ₱400.00</div>
+                </div>
+
+                <div class="transaction-item">
+                    <div class="transaction-icon">
+                        <i class="fa-solid fa-car"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-title">Trip Earnings</div>
+                        <div class="transaction-route">Quezon City to Makati</div>
+                        <div class="transaction-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 2025-11-01</span>
+                            <span><i class="fa-regular fa-clock"></i> 14:30</span>
+                        </div>
+                    </div>
+                    <div class="transaction-amount positive">+ ₱250.00</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Logout Modal -->
+    <div class="modal" id="logoutModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content logout-modal-content">
+            <button class="modal-close-btn" id="closeLogoutModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="logout-modal-body">
+                <h3 class="logout-modal-title">Confirm Action</h3>
+                <p class="logout-modal-text">Are you sure you want to leave?</p>
+                <div class="logout-modal-actions">
+                    <button class="btn-logout-confirm" id="confirmLogout">Confirm</button>
+                    <button class="btn-logout-cancel" id="cancelLogout">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/layout.js"></script>
+    <script src="../js/wallet.js"></script>
+</body>
+</html>

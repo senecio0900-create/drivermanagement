@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - JourneoLink Driver</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/messages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body data-page="messages">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <img src="../assets/logo.png" alt="JourneoLink Logo" class="logo">
+            <span class="brand-name">JOURNEO<span class="brand-link">LINK</span> <span class="brand-driver">DRIVER</span></span>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <span class="user-name">Jenn Mercado</span>
+                <span class="user-email">jennmercado@email.com</span>
+            </div>
+            <img src="../assets/user-avatar.png" alt="User Avatar" class="user-avatar">
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header" id="menuToggle" role="button" tabindex="0" aria-label="Toggle sidebar">
+            <i class="fa-solid fa-grip"></i> MENU
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <a href="dashboard.html" class="nav-item" data-page="dashboard">
+                    <span class="icon"><i class="fa-solid fa-grip"></i></span>
+                    <span class="nav-text">Dashboard</span> 
+                </a>
+                <a href="schedule.html" class="nav-item" data-page="schedule">
+                    <span class="icon"><i class="fa-solid fa-calendar-days"></i></span>
+                    <span class="nav-text">Schedule</span>
+                </a>
+                <a href="messages.html" class="nav-item" data-page="messages">
+                    <span class="icon"><i class="fa-solid fa-message"></i></span>
+                    <span class="nav-text">Messages</span>
+                </a>
+                <a href="wallet.html" class="nav-item" data-page="wallet">
+                    <span class="icon"><i class="fa-solid fa-wallet"></i></span>
+                    <span class="nav-text">My Wallet</span>
+                </a>
+                <a href="history.html" class="nav-item" data-page="history">
+                    <span class="icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                    <span class="nav-text">Compliance History</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    <i class="fa-solid fa-gear"></i> GENERAL
+                </div>
+                <a href="profile.html" class="nav-item" data-page="profile">
+                    <span class="icon"><i class="fa-solid fa-user"></i></span>
+                    <span class="nav-text">Profile</span>
+                </a>
+                <a href="#" class="nav-item" id="logoutBtn">
+                    <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                    <span class="nav-text">Logout</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="messages-container">
+            <!-- Left Panel - Conversations List -->
+            <div class="messages-sidebar">
+                <div class="messages-header">
+                    <h1>Messages</h1>
+                    <button class="mobile-close-btn" id="mobileCloseSidebarBtn" aria-label="Close conversations">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Tab Filters -->
+                <div class="message-tabs">
+                    <button class="message-tab active" data-tab="all">All</button>
+                    <button class="message-tab" data-tab="inbox">Inbox</button>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="message-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search" id="messageSearchInput">
+                </div>
+
+                <!-- Pinned Section (for All tab) -->
+                <div class="conversation-section" id="pinnedSection">
+                    <div class="section-label">Pinned</div>
+                    <div class="conversation-item" data-user="Juan Dela Cruz" data-time="09:21">
+                        <div class="conversation-avatar">JD</div>
+                        <div class="conversation-info">
+                            <div class="conversation-header">
+                                <span class="conversation-name">Juan Dela Cruz</span>
+                                <span class="conversation-time">09:21</span>
+                            </div>
+                            <div class="conversation-preview">Hi! I have a bookin...</div>
+                        </div>
+                    </div>
+                    <div class="conversation-item" data-user="Lebron James" data-time="04:21">
+                        <div class="conversation-avatar" style="background-color: #c8e6c9;">
+                            <span style="color: #2e7d32;">LJ</span>
+                            <span class="online-indicator"></span>
+                        </div>
+                        <div class="conversation-info">
+                            <div class="conversation-header">
+                                <span class="conversation-name">Lebron James</span>
+                                <span class="conversation-time">04:21</span>
+                            </div>
+                            <div class="conversation-preview">Hi!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Messages Section -->
+                <div class="conversation-section" id="allMessagesSection">
+                    <div class="section-label">All messages</div>
+                    <div class="conversation-item" data-user="Tom Davis" data-time="16:33">
+                        <div class="conversation-avatar" style="background-color: #d7ccc8;">
+                            <span style="color: #4e342e;">TV</span>
+                        </div>
+                        <div class="conversation-info">
+                            <div class="conversation-header">
+                                <span class="conversation-name">Tom Davis</span>
+                                <span class="conversation-time">16:33</span>
+                            </div>
+                            <div class="conversation-preview">Tell me about the ...</div>
+                        </div>
+                    </div>
+                    <div class="conversation-item active" data-user="Juan Dela Cruz" data-time="13:35">
+                        <div class="conversation-avatar">JD</div>
+                        <div class="conversation-info">
+                            <div class="conversation-header">
+                                <span class="conversation-name">Juan Dela Cruz</span>
+                                <span class="conversation-time">13:35</span>
+                            </div>
+                            <div class="conversation-preview">Hi! I have a booking ...</div>
+                        </div>
+                    </div>
+                    <div class="conversation-item" data-user="Juan Dela Cruz" data-time="11:46">
+                        <div class="conversation-avatar">JD</div>
+                        <div class="conversation-info">
+                            <div class="conversation-header">
+                                <span class="conversation-name">Juan Dela Cruz</span>
+                                <span class="conversation-time">11:46</span>
+                            </div>
+                            <div class="conversation-preview">Hi! I have a booking...</div>
+                        </div>
+                    </div>
+                    <div class="conversation-item" data-user="Juan Dela Cruz" data-time="10:01">
+                        <div class="conversation-avatar">JD</div>
+                        <div class="conversation-info">
+                            <div class="conversation-header">
+                                <span class="conversation-name">Juan Dela Cruz</span>
+                                <span class="conversation-time">10:01</span>
+                            </div>
+                            <div class="conversation-preview">Hi! I have a booking...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inbox Section (hidden by default) -->
+                <div class="conversation-section" id="inboxSection" style="display: none;">
+                    <div class="section-label">Inbox</div>
+                    <div class="conversation-item active" data-user="Juan Dela Cruz" data-time="09:21">
+                        <div class="conversation-avatar">JD</div>
+                        <div class="conversation-info">
+                            <div class="conversation-header">
+                                <span class="conversation-name">Juan Dela Cruz</span>
+                                <span class="conversation-time">09:21</span>
+                            </div>
+                            <div class="conversation-preview">Hi! I have a bookin...</div>
+                        </div>
+                    </div>
+                    <div class="conversation-item" data-user="Lebron James" data-time="04:21">
+                        <div class="conversation-avatar" style="background-color: #c8e6c9;">
+                            <span style="color: #2e7d32;">LJ</span>
+                        </div>
+                        <div class="conversation-info">
+                            <div class="conversation-header">
+                                <span class="conversation-name">Lebron James</span>
+                                <span class="conversation-time">04:21</span>
+                            </div>
+                            <div class="conversation-preview">Hi!</div>
+                        </div>
+                    </div>
+                    <div class="conversation-item" data-user="Tom Davis" data-time="16:33">
+                        <div class="conversation-avatar" style="background-color: #d7ccc8;">
+                            <span style="color: #4e342e;">TV</span>
+                        </div>
+                        <div class="conversation-info">
+                            <div class="conversation-header">
+                                <span class="conversation-name">Tom Davis</span>
+                                <span class="conversation-time">16:33</span>
+                            </div>
+                            <div class="conversation-preview">Tell me about the ...</div>
+                        </div>
+                    </div>
+                    <div class="conversation-item" data-user="Juan Dela Cruz" data-time="13:35">
+                        <div class="conversation-avatar">JD</div>
+                        <div class="conversation-info">
+                            <div class="conversation-header">
+                                <span class="conversation-name">Juan Dela Cruz</span>
+                                <span class="conversation-time">13:35</span>
+                            </div>
+                            <div class="conversation-preview">Hi! I have a booking ...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Chat View -->
+            <div class="chat-panel">
+                <!-- Chat Header -->
+                <div class="chat-header">
+                    <button class="mobile-contacts-btn" id="mobileContactsBtn" aria-label="Show conversations">
+                        <i class="fa-solid fa-address-book"></i>
+                    </button>
+                    <div class="chat-user-info">
+                        <div class="chat-avatar">JD</div>
+                        <div class="chat-user-details">
+                            <h3>Juan Dela Cruz</h3>
+                            <span class="user-role">Passenger</span>
+                        </div>
+                    </div>
+                    <button class="chat-menu-btn" id="chatMenuBtn">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    
+                    <!-- Chat Menu Dropdown -->
+                    <div class="chat-menu-dropdown" id="chatMenuDropdown">
+                        <button class="menu-item pin-item" id="pinConversationBtn">
+                            <i class="fa-solid fa-thumbtack"></i>
+                            <span>Pin Conversation</span>
+                        </button>
+                        <button class="menu-item delete-item" id="deleteConversationBtn">
+                            <i class="fa-solid fa-trash-can"></i>
+                            <span>Delete Conversation</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-date-divider">
+                        <span>Today</span>
+                    </div>
+
+                    <!-- Received Message -->
+                    <div class="message-wrapper received">
+                        <div class="message-bubble">
+                            <p>Hi! can i see your cock...</p>
+                            <span class="message-time">2:00pm</span>
+                        </div>
+                    </div>
+
+                    <!-- Sent Messages -->
+                    <div class="message-wrapper sent">
+                        <div class="message-bubble">
+                            <p>If the price is good..... hehehe</p>
+                            <span class="message-time">2:00pm <i class="fa-solid fa-check-double"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="message-wrapper sent">
+                        <div class="message-bubble">
+                            <p>Message here</p>
+                            <span class="message-time">2:00pm <i class="fa-solid fa-check-double"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Received Messages -->
+                    <div class="message-wrapper received">
+                        <div class="message-bubble">
+                            <p>Message here</p>
+                            <span class="message-time">2:00pm</span>
+                        </div>
+                    </div>
+
+                    <div class="message-wrapper received">
+                        <div class="message-bubble">
+                            <p>Message here</p>
+                            <span class="message-time">2:00pm</span>
+                        </div>
+                    </div>
+
+                    <!-- Sent Message -->
+                    <div class="message-wrapper sent">
+                        <div class="message-bubble">
+                            <p>Message here</p>
+                            <span class="message-time">2:00pm <i class="fa-solid fa-check-double"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Input -->
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" placeholder="Enter your message" id="messageInput">
+                    <button class="send-button" id="sendButton">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Logout Modal -->
+    <div class="modal" id="logoutModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content logout-modal-content">
+            <button class="modal-close-btn" id="closeLogoutModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="logout-modal-body">
+                <h3 class="logout-modal-title">Confirm Action</h3>
+                <p class="logout-modal-text">Are you sure you want to leave?</p>
+                <div class="logout-modal-actions">
+                    <button class="btn-logout-confirm" id="confirmLogout">Confirm</button>
+                    <button class="btn-logout-cancel" id="cancelLogout">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/layout.js"></script>
+    <script src="../js/messages.js"></script>
+</body>
+</html>

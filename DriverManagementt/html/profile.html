@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - JourneoLink Driver</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body data-page="profile">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <img src="../assets/logo.png" alt="JourneoLink Logo" class="logo">
+            <span class="brand-name">JOURNEO<span class="brand-link">LINK</span> <span class="brand-driver">DRIVER</span></span>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <span class="user-name">Jenn Mercado</span>
+                <span class="user-email">jennmercado@email.com</span>
+            </div>
+            <img src="../assets/user-avatar.png" alt="User Avatar" class="user-avatar">
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header" id="menuToggle" role="button" tabindex="0" aria-label="Toggle sidebar">
+            <i class="fa-solid fa-grip"></i> MENU
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <a href="dashboard.html" class="nav-item" data-page="dashboard">
+                    <span class="icon"><i class="fa-solid fa-grip"></i></span>
+                    <span class="nav-text">Dashboard</span> 
+                </a>
+                <a href="schedule.html" class="nav-item" data-page="schedule">
+                    <span class="icon"><i class="fa-solid fa-calendar-days"></i></span>
+                    <span class="nav-text">Schedule</span>
+                </a>
+                <a href="messages.html" class="nav-item" data-page="messages">
+                    <span class="icon"><i class="fa-solid fa-message"></i></span>
+                    <span class="nav-text">Messages</span>
+                </a>
+                <a href="wallet.html" class="nav-item" data-page="wallet">
+                    <span class="icon"><i class="fa-solid fa-wallet"></i></span>
+                    <span class="nav-text">My Wallet</span>
+                </a>
+                <a href="history.html" class="nav-item" data-page="history">
+                    <span class="icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                    <span class="nav-text">Compliance History</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    <i class="fa-solid fa-gear"></i> GENERAL
+                </div>
+                <a href="profile.html" class="nav-item" data-page="profile">
+                    <span class="icon"><i class="fa-solid fa-user"></i></span>
+                    <span class="nav-text">Profile</span>
+                </a>
+                <a href="#" class="nav-item" id="logoutBtn">
+                    <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                    <span class="nav-text">Logout</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="profile-container">
+            <!-- Left Sidebar - Profile Card -->
+            <aside class="profile-sidebar">
+                <div class="profile-card">
+                    <div class="profile-avatar-container">
+                        <img src="../assets/user-avatar.png" alt="Jenn Mercado" class="profile-avatar">
+                    </div>
+                    <h2 class="profile-name">Jenn Mercado</h2>
+                    <p class="profile-role">Driver</p>
+                    <span class="profile-status active">ACTIVE</span>
+                    
+                    <div class="profile-member-info">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Member since Jan 2024</span>
+                    </div>
+                </div>
+
+                <div class="quick-stats">
+                    <h3>Quick Stats</h3>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Trips</span>
+                        <span class="stat-value">142</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Rating</span>
+                        <span class="stat-value">4.8 <i class="fa-solid fa-star"></i></span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Content - Tabbed Interface -->
+            <div class="profile-content">
+                <!-- Tab Navigation -->
+                <div class="profile-tabs">
+                    <button class="profile-tab active" data-tab="account-info">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Account Information</span>
+                    </button>
+                    <button class="profile-tab" data-tab="driver-info">
+                        <i class="fa-solid fa-car"></i>
+                        <span>Driver Info</span>
+                    </button>
+                    <button class="profile-tab" data-tab="security">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Security</span>
+                    </button>
+                    <button class="profile-tab" data-tab="notifications">
+                        <i class="fa-solid fa-bell"></i>
+                        <span>Notifications</span>
+                    </button>
+                </div>
+
+                <!-- Tab Content Container -->
+                <div class="tab-panels">
+                    
+                    <!-- ACCOUNT INFORMATION TAB -->
+                    <div class="tab-panel active" id="account-info">
+                        <div class="panel-header">
+                            <h2>Account Information</h2>
+                            <button class="edit-btn" id="editAccountBtn">
+                                <i class="fa-solid fa-pen"></i>
+                                Edit
+                            </button>
+                        </div>
+
+                        <form class="profile-form" id="accountForm">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" id="username" name="username" value="Jenny" class="form-input" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" value="jennmercado@email.com" class="form-input" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" value="+63 912 345 6789" class="form-input" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" name="address" value="Quezon City, Metro Manila" class="form-input" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dob">Date of Birth</label>
+                                <input type="text" id="dob" name="dob" value="03/15/1995" class="form-input" readonly>
+                            </div>
+
+                            <div class="form-actions" style="display: none;" id="accountFormActions">
+                                <button type="button" class="btn-save" id="saveAccountBtn">Save Changes</button>
+                                <button type="button" class="btn-cancel" id="cancelAccountBtn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- DRIVER INFO TAB -->
+                    <div class="tab-panel" id="driver-info">
+                        <div class="panel-header">
+                            <h2>Driver's Information</h2>
+                            <button class="edit-btn" id="editDriverBtn">
+                                <i class="fa-solid fa-pen"></i>
+                                Edit
+                            </button>
+                        </div>
+
+                        <form class="profile-form" id="driverForm">
+                            <!-- Driver's License Section -->
+                            <div class="form-section">
+                                <h3 class="section-title">Driver's License</h3>
+                                
+                                <div class="form-group">
+                                    <label for="licenseNumber">License Number</label>
+                                    <input type="text" id="licenseNumber" name="licenseNumber" value="N01-12-345678" class="form-input" readonly>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="issueDate">Issue Date</label>
+                                        <input type="text" id="issueDate" name="issueDate" value="11/1/25" class="form-input" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="expiryDate">Expiry Date</label>
+                                        <input type="text" id="expiryDate" name="expiryDate" value="11/1/25" class="form-input" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="licenseImage">License Image</label>
+                                    <div class="license-upload-container">
+                                        <div class="license-preview" id="licensePreview">
+                                            <img src="../assets/license-sample.svg" alt="Driver's License" class="license-image" id="licenseImage">
+                                        </div>
+                                        <button type="button" class="upload-btn" id="uploadLicenseBtn">
+                                            <i class="fa-solid fa-upload"></i>
+                                            Upload New
+                                        </button>
+                                        <input type="file" id="licenseFileInput" accept="image/*" style="display: none;">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="yearsExperience">Years of Experience</label>
+                                    <input type="number" id="yearsExperience" name="yearsExperience" value="8" class="form-input" readonly>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="previousJobs">Previous Driving Jobs</label>
+                                    <textarea id="previousJobs" name="previousJobs" rows="4" class="form-input form-textarea" readonly>Delivery driver for 3 years, Taxi driver for 5 years</textarea>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle Driving Capability Section -->
+                            <div class="form-section">
+                                <h3 class="section-title">Vehicle Driving Capability</h3>
+                                
+                                <div class="form-group">
+                                    <label>Vehicle Categories</label>
+                                    <div class="vehicle-categories">
+                                        <label class="vehicle-category-item">
+                                            <input type="checkbox" name="vehicleCategory" value="sedan" checked>
+                                            <span class="category-badge">Sedan</span>
+                                        </label>
+                                        <label class="vehicle-category-item">
+                                            <input type="checkbox" name="vehicleCategory" value="suv" checked>
+                                            <span class="category-badge">SUV</span>
+                                        </label>
+                                        <label class="vehicle-category-item">
+                                            <input type="checkbox" name="vehicleCategory" value="minibus" checked>
+                                            <span class="category-badge">Minibus</span>
+                                        </label>
+                                        <label class="vehicle-category-item">
+                                            <input type="checkbox" name="vehicleCategory" value="van">
+                                            <span class="category-badge">Van</span>
+                                        </label>
+                                        <label class="vehicle-category-item">
+                                            <input type="checkbox" name="vehicleCategory" value="truck">
+                                            <span class="category-badge">Truck</span>
+                                        </label>
+                                        <label class="vehicle-category-item">
+                                            <input type="checkbox" name="vehicleCategory" value="bus">
+                                            <span class="category-badge">Bus</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions" style="display: none;" id="driverFormActions">
+                                <button type="button" class="btn-save" id="saveDriverBtn">Save Changes</button>
+                                <button type="button" class="btn-cancel" id="cancelDriverBtn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- SECURITY TAB -->
+                    <div class="tab-panel" id="security">
+                        <div class="panel-header">
+                            <h2>Security Settings</h2>
+                        </div>
+
+                        <div class="security-settings-content">
+                            <!-- Password Section -->
+                            <div class="security-setting-item">
+                                <div class="setting-header">
+                                    <div class="setting-info">
+                                        <h3>Password</h3>
+                                        <p class="setting-subtitle">Last changed 2 months ago</p>
+                                    </div>
+                                    <button class="change-link" id="changePasswordBtn">Change</button>
+                                </div>
+                            </div>
+
+                            <!-- Two-Factor Authentication Section -->
+                            <div class="security-setting-item">
+                                <div class="setting-header">
+                                    <div class="setting-info">
+                                        <h3>Two-Factor Authentication</h3>
+                                        <p class="setting-subtitle">Add extra security to your account</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="twoFactorToggle">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NOTIFICATIONS TAB -->
+                    <div class="tab-panel" id="notifications">
+                        <div class="panel-header">
+                            <h2>Notification Preferences</h2>
+                            <p class="panel-subtitle">Manage your email and SMS alerts</p>
+                        </div>
+
+                        <div class="notification-preferences-content">
+                            <!-- Email Alerts -->
+                            <div class="notification-pref-item">
+                                <div class="pref-info">
+                                    <h3>Email Alerts</h3>
+                                    <p>Receive notifications via email</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="emailAlertsToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <!-- SMS Alerts -->
+                            <div class="notification-pref-item">
+                                <div class="pref-info">
+                                    <h3>SMS Alerts</h3>
+                                    <p>Receive notifications via SMS</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="smsAlertsToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <!-- Trip Updates -->
+                            <div class="notification-pref-item">
+                                <div class="pref-info">
+                                    <h3>Trip Updates</h3>
+                                    <p>Get notified about trip requests and updates</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="tripUpdatesToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <!-- Promotions -->
+                            <div class="notification-pref-item">
+                                <div class="pref-info">
+                                    <h3>Promotions</h3>
+                                    <p>Receive special offers and discounts</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="promotionsToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Logout Modal -->
+    <div class="modal" id="logoutModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content logout-modal-content">
+            <button class="modal-close-btn" id="closeLogoutModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="logout-modal-body">
+                <h3 class="logout-modal-title">Confirm Action</h3>
+                <p class="logout-modal-text">Are you sure you want to leave?</p>
+                <div class="logout-modal-actions">
+                    <button class="btn-logout-confirm" id="confirmLogout">Confirm</button>
+                    <button class="btn-logout-cancel" id="cancelLogout">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Account Information Modal -->
+    <div class="edit-modal-overlay" id="editAccountModal">
+        <div class="edit-modal">
+            <div class="edit-modal-header">
+                <h2>Edit Account Information</h2>
+                <button class="close-modal-btn" id="closeEditModalBtn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="edit-modal-body">
+                <form id="editAccountForm">
+                    <div class="edit-form-group">
+                        <label for="editUsername">Username</label>
+                        <input type="text" id="editUsername" name="username" class="edit-form-input" value="Jenny" required>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" id="editEmail" name="email" class="edit-form-input" value="jennmercado@email.com" required>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="editPhone">Phone Number</label>
+                        <input type="tel" id="editPhone" name="phone" class="edit-form-input" value="+63 912 345 6789" required>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="editAddress">Address</label>
+                        <input type="text" id="editAddress" name="address" class="edit-form-input" value="Quezon City, Metro Manila" required>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="editDob">Date of Birth</label>
+                        <input type="text" id="editDob" name="dob" class="edit-form-input" value="03/15/1995" required>
+                    </div>
+
+                    <div class="edit-modal-actions">
+                        <button type="button" class="cancel-btn" id="cancelEditBtn">Cancel</button>
+                        <button type="submit" class="save-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Driver Information Modal -->
+    <div class="edit-modal-overlay" id="editDriverModal">
+        <div class="edit-modal edit-driver-modal">
+            <div class="edit-modal-header">
+                <h2>Edit Driver Information</h2>
+                <button class="close-modal-btn" id="closeDriverModalBtn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="edit-modal-body">
+                <form id="editDriverForm">
+                    <div class="edit-form-group">
+                        <label for="editLicenseNumber">Active License Number</label>
+                        <div class="input-with-icon">
+                            <input type="password" id="editLicenseNumber" name="licenseNumber" class="edit-form-input password-input" value="N01-12-345678" required>
+                            <button type="button" class="toggle-password-btn" id="toggleLicensePassword" data-target="editLicenseNumber">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-row-modal">
+                        <div class="edit-form-group">
+                            <label for="editIssueDate">Issue Date</label>
+                            <input type="text" id="editIssueDate" name="issueDate" class="edit-form-input" placeholder="mm/dd/yy" value="11/1/25" required>
+                        </div>
+                        <div class="edit-form-group">
+                            <label for="editExpiryDate">Expiry Date</label>
+                            <input type="text" id="editExpiryDate" name="expiryDate" class="edit-form-input" placeholder="mm/dd/yy" value="11/1/25" required>
+                        </div>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="editYearsExperience">Years of Experience</label>
+                        <input type="text" id="editYearsExperience" name="yearsExperience" class="edit-form-input" placeholder="Total Years of Experience" value="8" required>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="editPreviousJobs">Previous Driving Job</label>
+                        <input type="text" id="editPreviousJobs" name="previousJobs" class="edit-form-input" placeholder="Previous Driving Job" value="Delivery driver for 3 years, Taxi driver for 5 years" required>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="editVehicleCapability">Vehicle Driving Capability</label>
+                        <div class="custom-dropdown" id="vehicleDropdown">
+                            <button type="button" class="dropdown-toggle" id="vehicleDropdownToggle">
+                                <span class="dropdown-label">Select Vehicle Capability</span>
+                                <i class="fa-solid fa-chevron-up"></i>
+                            </button>
+                            <div class="dropdown-menu" id="vehicleDropdownMenu">
+                                <div class="dropdown-header">Available roles</div>
+                                <label class="dropdown-item">
+                                    <input type="checkbox" name="vehicleCapability" value="sedan" id="checkSedan">
+                                    <span>Sedan</span>
+                                </label>
+                                <label class="dropdown-item">
+                                    <input type="checkbox" name="vehicleCapability" value="suv" id="checkSUV">
+                                    <span>SUV</span>
+                                </label>
+                                <label class="dropdown-item">
+                                    <input type="checkbox" name="vehicleCapability" value="minivan" id="checkMinivan">
+                                    <span>Minivan</span>
+                                </label>
+                                <label class="dropdown-item">
+                                    <input type="checkbox" name="vehicleCapability" value="hatchback" id="checkHatchback">
+                                    <span>Hatchback</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="edit-modal-actions">
+                        <button type="button" class="cancel-btn" id="cancelDriverEditBtn">Cancel</button>
+                        <button type="submit" class="save-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="edit-modal-overlay" id="changePasswordModal">
+        <div class="edit-modal change-password-modal">
+            <div class="edit-modal-header">
+                <h2>Change Password</h2>
+                <button class="close-modal-btn" id="closePasswordModalBtn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="edit-modal-body">
+                <form id="changePasswordForm">
+                    <div class="edit-form-group">
+                        <label for="currentPassword">Enter you current password</label>
+                        <div class="input-with-icon">
+                            <input type="password" id="currentPassword" name="currentPassword" class="edit-form-input password-input" placeholder="Enter you current password" required>
+                            <button type="button" class="toggle-password-btn" data-target="currentPassword">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="newPassword">Enter new password</label>
+                        <div class="input-with-icon">
+                            <input type="password" id="newPassword" name="newPassword" class="edit-form-input password-input" placeholder="Enter new password" required>
+                            <button type="button" class="toggle-password-btn" data-target="newPassword">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="confirmPassword">Confirm password</label>
+                        <div class="input-with-icon">
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="edit-form-input password-input" placeholder="Confirm password" required>
+                            <button type="button" class="toggle-password-btn" data-target="confirmPassword">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="edit-modal-actions">
+                        <button type="button" class="cancel-btn" id="cancelPasswordBtn">Cancel</button>
+                        <button type="submit" class="save-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/layout.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>
