@@ -1,2 +1,12 @@
 [build]
-  publish = "DriverManagementt/html"
+  publish = "DriverManagementt"
+  
+[[redirects]]
+  from = "/"
+  to = "/html/dashboard.html"
+  status = 301
+
+[[redirects]]
+  from = "/*"
+  to = "/html/:splat"
+  status = 200
