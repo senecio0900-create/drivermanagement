@@ -63,6 +63,12 @@
             fare: card.dataset.fare
         };
         
+        // Validate coordinates
+        if (isNaN(data.pickupLat) || isNaN(data.pickupLng) || isNaN(data.dropoffLat) || isNaN(data.dropoffLng)) {
+            console.error('Invalid coordinates in booking data:', data);
+            return null;
+        }
+        
         const noteElement = card.querySelector('.booking-note');
         if (noteElement) {
             data.note = noteElement.textContent.trim().replace(/^\s*\S+\s*/, '');
@@ -84,6 +90,10 @@
                 if (!card) return;
                 
                 currentBookingData = extractBookingDataFromCard(card);
+                if (!currentBookingData) {
+                    alert('Invalid booking data. Please try again.');
+                    return;
+                }
                 showBookingDetailsModal();
             });
         });
@@ -288,11 +298,18 @@
         if (!currentBookingData) return;
 
         const mapContainer = document.getElementById('bookingMap');
+        if (!mapContainer) return;
         
         // Clear existing map if any
         if (map) {
+            map.off();
             map.remove();
+            map = null;
         }
+        
+        // Clear the container HTML to ensure clean state
+        mapContainer.innerHTML = '';
+        mapContainer._leaflet_id = null;
 
         // Calculate center point between pickup and dropoff
         const centerLat = (currentBookingData.pickupLat + currentBookingData.dropoffLat) / 2;
@@ -611,7 +628,12 @@
                 const card = button.closest('.booking-card');
                 if (!card) return;
                 
-                showOngoingBookingModal(extractBookingDataFromCard(card));
+                const bookingData = extractBookingDataFromCard(card);
+                if (!bookingData) {
+                    alert('Invalid booking data. Please try again.');
+                    return;
+                }
+                showOngoingBookingModal(bookingData);
             });
         }
     }
@@ -686,8 +708,14 @@
 
         // Clear any existing map
         if (ongoingMap) {
+            ongoingMap.off();
             ongoingMap.remove();
+            ongoingMap = null;
         }
+        
+        // Clear the container HTML to ensure clean state
+        mapContainer.innerHTML = '';
+        mapContainer._leaflet_id = null;
 
         // Center point between pickup and dropoff
         const centerLat = (bookingData.pickupLat + bookingData.dropoffLat) / 2;
