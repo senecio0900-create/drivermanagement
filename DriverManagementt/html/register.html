@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account - Journeolink</title>
+    <link rel="icon" type="image/png" href="../assets/brand-logo.png">
+    <link rel="stylesheet" href="../css/register.css">
+</head>
+<body>
+    <!-- Left Side - Form -->
+    <div class="register-left">
+        <div class="logo-section">
+            <img src="../assets/brand-logo.png" alt="Journeolink Logo" class="logo">
+            <div class="brand-text">Journeolink</div>
+        </div>
+
+        <div class="form-container">
+            <h1>Create an Account</h1>
+            <p class="subtitle">Set up your user account to get started with Journeolink.</p>
+
+            <form id="registerForm" action="#" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            name="firstName" 
+                            placeholder="First Name" 
+                            required
+                            minlength="2"
+                            maxlength="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input 
+                            type="text" 
+                            id="lastName" 
+                            name="lastName" 
+                            placeholder="Last Name" 
+                            required
+                            minlength="2"
+                            maxlength="50">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Email" 
+                        required
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Password" 
+                        required
+                        minlength="8">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        placeholder="Confirm Password" 
+                        required
+                        minlength="8">
+                </div>
+
+                <button type="submit" class="btn-register">
+                    Sign Up
+                </button>
+            </form>
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Log in</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side - Image -->
+    <div class="register-right"></div>
+
+    <!-- Personal Information Modal -->
+    <div id="personalInfoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-left">
+                <div class="logo-section">
+                    <img src="../assets/brand-logo.png" alt="Journeolink Logo" class="logo">
+                    <div class="brand-text">Journeolink</div>
+                </div>
+
+                <div class="form-container">
+                    <h1>Personal Information</h1>
+                    <p class="subtitle">Fill in your accurate and valid details to ensure a smooth onboarding experience.</p>
+
+                    <form id="personalInfoForm">
+                        <!-- Name Section -->
+                        <div class="form-section">
+                            <label class="section-label">Name</label>
+                            <div class="name-row">
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input 
+                                        type="text" 
+                                        id="lastName" 
+                                        name="lastName" 
+                                        placeholder="Last name" 
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstNameFull">First Name</label>
+                                    <input 
+                                        type="text" 
+                                        id="firstNameFull" 
+                                        name="firstNameFull" 
+                                        placeholder="First Name" 
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="middleName">Middle Name</label>
+                                    <input 
+                                        type="text" 
+                                        id="middleName" 
+                                        name="middleName" 
+                                        placeholder="Middle Name">
+                                </div>
+                                <div class="form-group ext-group">
+                                    <label for="ext">Ext.</label>
+                                    <input 
+                                        type="text" 
+                                        id="ext" 
+                                        name="ext" 
+                                        placeholder="Ext">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Birthdate and Gender -->
+                        <div class="form-row-half">
+                            <div class="form-group">
+                                <label for="birthdate">Birthdate</label>
+                                <input 
+                                    type="date" 
+                                    id="birthdate" 
+                                    name="birthdate" 
+                                    placeholder="Birthdate" 
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select id="gender" name="gender" required>
+                                    <option value="">Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <p class="field-description">Please provide your current address (must match with your Proof of Address document).</p>
+                            <input 
+                                type="text" 
+                                id="address" 
+                                name="address" 
+                                placeholder="Current Address" 
+                                required>
+                        </div>
+
+                        <!-- Contact Number and Alternative Email -->
+                        <div class="form-row-half">
+                            <div class="form-group">
+                                <label for="contactNumber">Contact Number</label>
+                                <p class="field-description">Your contact number must be active.</p>
+                                <input 
+                                    type="tel" 
+                                    id="contactNumber" 
+                                    name="contactNumber" 
+                                    placeholder="Contact Number" 
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="alternativeEmail">Alternative Email</label>
+                                <p class="field-description">Your alternative email must be active.</p>
+                                <input 
+                                    type="email" 
+                                    id="alternativeEmail" 
+                                    name="alternativeEmail" 
+                                    placeholder="Alternative email">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-next">
+                            Next
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-right"></div>
+        </div>
+    </div>
+
+    <!-- Upload Documents Modal -->
+    <div id="uploadDocumentsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-left">
+                <div class="logo-section">
+                    <img src="../assets/brand-logo.png" alt="Journeolink Logo" class="logo">
+                    <div class="brand-text">Journeolink</div>
+                </div>
+
+                <div class="form-container">
+                    <h1>Almost Done - Upload Your Files</h1>
+                    <p class="subtitle">Submit your driver's license and supporting documents for verification.</p>
+
+                    <form id="uploadDocumentsForm">
+                        <!-- License Section -->
+                        <div class="form-section">
+                            <label class="section-label">License</label>
+                            <div class="form-row-half">
+                                <div class="form-group">
+                                    <label for="licenseNumber">License Number</label>
+                                    <input 
+                                        type="text" 
+                                        id="licenseNumber" 
+                                        name="licenseNumber" 
+                                        placeholder="License Number" 
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="licenseExpiry">License Expiry Date</label>
+                                    <input 
+                                        type="date" 
+                                        id="licenseExpiry" 
+                                        name="licenseExpiry" 
+                                        placeholder="License Expiry Date" 
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="licensePhoto">License Photo (Provide a valid driver's license photo for verification.)</label>
+                                <div class="file-upload-wrapper">
+                                    <input 
+                                        type="file" 
+                                        id="licensePhoto" 
+                                        name="licensePhoto" 
+                                        accept="image/*,.pdf"
+                                        required>
+                                    <label for="licensePhoto" class="file-upload-label">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M10 5V15M5 10H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                        <span class="file-name">License Photo</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NBI Clearance Photo -->
+                        <div class="form-group">
+                            <label for="nbiClearance" class="section-label">NBI Clearance Photo</label>
+                            <div class="file-upload-wrapper">
+                                <input 
+                                    type="file" 
+                                    id="nbiClearance" 
+                                    name="nbiClearance" 
+                                    accept="image/*,.pdf"
+                                    required>
+                                <label for="nbiClearance" class="file-upload-label">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M10 5V15M5 10H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    <span class="file-name">NBI Clearance</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Proof of Address -->
+                        <div class="form-group">
+                            <label for="proofOfAddress" class="section-label">Proof of Address <span class="label-note">(Must match with the current address you provided).</span></label>
+                            <div class="file-upload-wrapper">
+                                <input 
+                                    type="file" 
+                                    id="proofOfAddress" 
+                                    name="proofOfAddress" 
+                                    accept="image/*,.pdf"
+                                    required>
+                                <label for="proofOfAddress" class="file-upload-label">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M10 5V15M5 10H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    <span class="file-name">Proof of Address</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 2x2 ID Picture -->
+                        <div class="form-group">
+                            <label for="idPicture" class="section-label">2x2 ID Picture <span class="label-note">(Make sure your face is clearly visible, with no filters or accessories, on a plain white background).</span></label>
+                            <div class="file-upload-wrapper">
+                                <input 
+                                    type="file" 
+                                    id="idPicture" 
+                                    name="idPicture" 
+                                    accept="image/*"
+                                    required>
+                                <label for="idPicture" class="file-upload-label">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M10 5V15M5 10H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    <span class="file-name">2×2 ID Picture</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input 
+                                    type="checkbox" 
+                                    id="termsAccept" 
+                                    name="termsAccept" 
+                                    required>
+                                <span class="checkbox-text">I accept the <a href="#" class="terms-link">Terms and Conditions</a> and consent to the use of my data for verification purposes.</span>
+                            </label>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="form-buttons">
+                            <button type="button" class="btn-back" id="backToPersonalInfo">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Back
+                            </button>
+                            <button type="submit" class="btn-next">
+                                Next
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-right"></div>
+        </div>
+    </div>
+
+    <!-- Review Application Modal -->
+    <div id="reviewApplicationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-left">
+                <div class="logo-section">
+                    <img src="../assets/brand-logo.png" alt="Journeolink Logo" class="logo">
+                    <div class="brand-text">Journeolink</div>
+                </div>
+
+                <div class="form-container">
+                    <h1>One Last Step - Review Your Application</h1>
+                    <p class="subtitle">Make sure your information is correct. You won't be able to edit after submission.</p>
+
+                    <form id="reviewApplicationForm">
+                        <!-- Name Section -->
+                        <div class="review-section">
+                            <label class="section-label">Name</label>
+                            <div class="name-row">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" id="review-lastName" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" id="review-firstName" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Middle Name</label>
+                                    <input type="text" id="review-middleName" readonly>
+                                </div>
+                                <div class="form-group ext-group">
+                                    <label>Ext.</label>
+                                    <input type="text" id="review-ext" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Birthdate and Gender -->
+                        <div class="form-row-half">
+                            <div class="form-group">
+                                <label>Birthdate</label>
+                                <input type="text" id="review-birthdate" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <input type="text" id="review-gender" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" id="review-address" readonly>
+                        </div>
+
+                        <!-- Contact Number and Alternative Email -->
+                        <div class="form-row-half">
+                            <div class="form-group">
+                                <label>Contact Number</label>
+                                <input type="text" id="review-contactNumber" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Alternative Email</label>
+                                <input type="text" id="review-alternativeEmail" readonly>
+                            </div>
+                        </div>
+
+                        <!-- License Section -->
+                        <div class="review-section">
+                            <label class="section-label">License</label>
+                            <div class="license-row">
+                                <div class="form-group">
+                                    <label>License Number</label>
+                                    <input type="text" id="review-licenseNumber" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>License Expiry Date</label>
+                                    <input type="text" id="review-licenseExpiry" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>License Photo</label>
+                                    <input type="text" id="review-licensePhoto" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Documents -->
+                        <div class="documents-row">
+                            <div class="form-group">
+                                <label>NBI Clearance Photo</label>
+                                <input type="text" id="review-nbiClearance" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Proof of Address</label>
+                                <input type="text" id="review-proofOfAddress" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>2x2 ID Picture</label>
+                                <input type="text" id="review-idPicture" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Terms Confirmation -->
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="review-termsAccept" checked disabled>
+                                <span class="checkbox-text">I accept the <a href="#" class="terms-link">Terms and Conditions</a> and consent to the use of my data for verification purposes.</span>
+                            </label>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="form-buttons">
+                            <button type="button" class="btn-back" id="backToUpload">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Back
+                            </button>
+                            <button type="submit" class="btn-submit">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-right"></div>
+        </div>
+    </div>
+
+    <!-- Registration Success Modal -->
+    <div id="registrationSuccessModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-left success-modal-left">
+                <div class="logo-section-center">
+                    <img src="../assets/brand-logo.png" alt="Journeolink Logo" class="logo">
+                    <div class="brand-text">Journeolink</div>
+                </div>
+
+                <div class="success-content">
+                    <div class="success-emoji-inline">🥳</div>
+                    <h1 class="success-title">Great Job! Your Application Is In <span class="emoji-icon">🥳</span></h1>
+                    <p class="success-message">
+                        You are one step away from becoming a Journeolink Driver-Partner! Our team 
+                        will review your details and notify you once verification is complete 
+                        via email or your dashboard.
+                    </p>
+                    <div class="success-buttons">
+                        <a href="index.html" class="btn-home">Go Home</a>
+                        <a href="dashboard.html" class="btn-dashboard">Proceed to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-right"></div>
+        </div>
+    </div>
+
+    <!-- Registration Error Modal -->
+    <div id="registrationErrorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-left error-modal-left">
+                <div class="logo-section">
+                    <img src="../assets/brand-logo.png" alt="Journeolink Logo" class="logo">
+                    <div class="brand-text">Journeolink</div>
+                </div>
+
+                <div class="error-content">
+                    <h1 class="error-title">Oops! Something went wrong...</h1>
+                    <p class="error-code">HTTP 500 ERROR - INTERNAL SERVER ERROR</p>
+                    <p class="error-message">
+                        We encountered an unexpected problem. Your application wasn't processed. 
+                        Please try again later or reach out to our support team.
+                    </p>
+                    <a href="index.html" class="btn-home-error">Go Home</a>
+                </div>
+            </div>
+
+            <div class="modal-right"></div>
+        </div>
+    </div>
+
+    <script src="../js/register.js"></script>
+</body>
+</html>

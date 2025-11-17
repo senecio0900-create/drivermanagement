@@ -3,339 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JourneoLink Driver Management</title>
+    <title>JourneoLink Drive - Earn, Drive, and Thrive</title>
+    <link rel="icon" type="image/png" href="../assets/bg-img.png">
+    <link rel="stylesheet" href="../css/landingpage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #3F562C 0%, #5a7a3d 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .landing-container {
-            background-color: #ffffff;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
-            width: 100%;
-            padding: 60px 40px;
-            text-align: center;
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .logo-section {
-            margin-bottom: 40px;
-        }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            background-color: #3F562C;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .logo i {
-            font-size: 40px;
-            color: #ffffff;
-        }
-
-        .brand-name {
-            font-size: 32px;
-            font-weight: 700;
-            color: #212529;
-            margin-bottom: 10px;
-        }
-
-        .brand-name .journeo {
-            color: #212529;
-        }
-
-        .brand-name .link {
-            color: #f59e0b;
-        }
-
-        .brand-name .driver {
-            color: #3F562C;
-            font-weight: 800;
-        }
-
-        .subtitle {
-            font-size: 18px;
-            color: #6c757d;
-            margin-bottom: 40px;
-        }
-
-        .hero-section {
-            margin-bottom: 50px;
-        }
-
-        .hero-title {
-            font-size: 42px;
-            font-weight: 800;
-            color: #212529;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .hero-description {
-            font-size: 18px;
-            color: #495057;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .feature-card {
-            padding: 30px 20px;
-            background-color: #f8f9fa;
-            border-radius: 16px;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            background-color: #3F562C;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(63, 86, 44, 0.2);
-        }
-
-        .feature-card:hover .feature-icon {
-            color: #ffffff;
-        }
-
-        .feature-card:hover .feature-title {
-            color: #ffffff;
-        }
-
-        .feature-card:hover .feature-text {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .feature-icon {
-            font-size: 36px;
-            color: #3F562C;
-            margin-bottom: 15px;
-            transition: color 0.3s;
-        }
-
-        .feature-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #212529;
-            margin-bottom: 10px;
-            transition: color 0.3s;
-        }
-
-        .feature-text {
-            font-size: 14px;
-            color: #6c757d;
-            transition: color 0.3s;
-        }
-
-        .cta-section {
-            margin-top: 40px;
-        }
-
-        .btn-dashboard {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 18px 40px;
-            background-color: #3F562C;
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: 600;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(63, 86, 44, 0.3);
-        }
-
-        .btn-dashboard:hover {
-            background-color: #2d3f20;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(63, 86, 44, 0.4);
-        }
-
-        .btn-dashboard i {
-            font-size: 20px;
-        }
-
-        .footer {
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .footer-text {
-            font-size: 14px;
-            color: #adb5bd;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .landing-container {
-                padding: 40px 30px;
-            }
-
-            .hero-title {
-                font-size: 32px;
-            }
-
-            .hero-description {
-                font-size: 16px;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .btn-dashboard {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .landing-container {
-                padding: 30px 20px;
-            }
-
-            .brand-name {
-                font-size: 24px;
-            }
-
-            .hero-title {
-                font-size: 28px;
-            }
-
-            .logo {
-                width: 60px;
-                height: 60px;
-            }
-
-            .logo i {
-                font-size: 30px;
-            }
-        }
-    </style>
 </head>
 <body>
-    <div class="landing-container">
-        <!-- Logo Section -->
-        <div class="logo-section">
-            <div class="logo">
-                <i class="fa-solid fa-car"></i>
+    <!-- Background Overlay -->
+    <div class="background-overlay"></div>
+
+    <!-- Landing Page Container -->
+    <div class="landing-page">
+        <!-- Header with Logo -->
+        <header class="header">
+            <div class="logo-container">
+                <img src="../assets/brand-logo.png" alt="Journeolink Logo" class="logo">
+                <span class="brand-text">Journeolink <span class="brand-highlight">Drive</span></span>
             </div>
-            <h1 class="brand-name">
-                <span class="journeo">JOURNEO</span><span class="link">LINK</span> <span class="driver">DRIVER</span>
+        </header>
+
+        <!-- Hero Content -->
+        <main class="hero-content">
+            <h1 class="hero-title">
+                Earn, Drive, and Thrive<br>
+                with <span class="highlight-text">Journeolink</span>.
             </h1>
-            <p class="subtitle">Professional Driver Management System</p>
-        </div>
-
-        <!-- Hero Section -->
-        <div class="hero-section">
-            <h2 class="hero-title">Manage Your Driving Career with Ease</h2>
+            
             <p class="hero-description">
-                Streamline your driver operations, track schedules, manage earnings, 
-                and stay connected with our comprehensive driver management platform. 
-                Everything you need in one place.
+                Become one of our driver-partners at Journeolink and<br>
+                start earning today. Apply now!
             </p>
-        </div>
 
-        <!-- Features -->
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-calendar-check"></i>
-                </div>
-                <h3 class="feature-title">Schedule Management</h3>
-                <p class="feature-text">Organize and track your trips efficiently</p>
+            <!-- CTA Buttons -->
+            <div class="cta-buttons">
+                <a href="login.html" class="btn btn-login">
+                    Login
+                </a>
+                <a href="register.html" class="btn btn-get-started">
+                    Get Started
+                    <i class="fa-solid fa-circle-arrow-right"></i>
+                </a>
             </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-wallet"></i>
-                </div>
-                <h3 class="feature-title">Earnings Tracker</h3>
-                <p class="feature-text">Monitor your income and transactions</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-message"></i>
-                </div>
-                <h3 class="feature-title">Real-time Messages</h3>
-                <p class="feature-text">Stay connected with clients instantly</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-chart-line"></i>
-                </div>
-                <h3 class="feature-title">Performance Analytics</h3>
-                <p class="feature-text">Track your progress and ratings</p>
-            </div>
-        </div>
-
-        <!-- CTA Section -->
-        <div class="cta-section">
-            <a href="dashboard.html" class="btn-dashboard">
-                <i class="fa-solid fa-arrow-right"></i>
-                <span>Go to Dashboard</span>
-            </a>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p class="footer-text">© 2025 JourneoLink Driver Management. All rights reserved.</p>
-        </div>
+        </main>
     </div>
 </body>
 </html>
+          

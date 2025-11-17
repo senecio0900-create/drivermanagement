@@ -331,107 +331,6 @@
     color: #ffffff;
 }
 
-.badge-allowed {
-    background-color: #3F562C;
-    color: #ffffff;
-}
-
-/* Vehicle Coding Styles */
-.coding-info-card {
-    background: linear-gradient(135deg, #3F562C 0%, #5a7a3f 100%);
-    color: #ffffff;
-    border-radius: 12px;
-    padding: 28px;
-    margin-bottom: 24px;
-}
-
-.coding-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.coding-header i {
-    font-size: 28px;
-}
-
-.coding-header h3 {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0;
-}
-
-.coding-description {
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    opacity: 0.95;
-}
-
-.coding-hours {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.hour-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 16px;
-    background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-    font-size: 14px;
-}
-
-.hour-item i {
-    font-size: 16px;
-}
-
-/* Coding Table */
-.coding-table-wrapper {
-    background: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.coding-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.coding-table thead {
-    background-color: #f8f9fa;
-}
-
-.coding-table th {
-    padding: 16px 20px;
-    text-align: left;
-    font-weight: 700;
-    font-size: 13px;
-    color: #495057;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid #e9ecef;
-}
-
-.coding-table td {
-    padding: 18px 20px;
-    border-bottom: 1px solid #f1f3f5;
-    font-size: 15px;
-    color: #212529;
-}
-
-.coding-table tbody tr:hover {
-    background-color: #f8f9fa;
-}
-
-.coding-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
 /* Responsive Schedule */
 @media (max-width: 992px) {
     .bookings-grid {
@@ -469,19 +368,6 @@
     .status-badge {
         padding: 5px 12px;
         font-size: 10px;
-    }
-    
-    .coding-hours {
-        flex-direction: column;
-        gap: 12px;
-    }
-    
-    .coding-table-wrapper {
-        overflow-x: auto;
-    }
-    
-    .coding-table {
-        min-width: 600px;
     }
 }
 

@@ -1,0 +1,443 @@
+/* ========================================
+   LANDING PAGE STYLES
+   ======================================== */
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Gilroy', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow: hidden;
+    position: relative;
+    background-color: #000000;
+}
+
+/* Fix for mobile viewport height */
+html {
+    height: -webkit-fill-available;
+}
+
+/* Background Image */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/bg-img.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+/* Mobile-specific background positioning */
+@media (max-width: 768px) {
+    body::before {
+        background-position: center center;
+        background-size: cover;
+    }
+}
+
+/* Background Overlay */
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.45) 100%);
+    z-index: 1;
+}
+
+/* Landing Page Container */
+.landing-page {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    padding: 40px 60px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: auto;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.brand-text {
+    font-size: 22px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+}
+
+.brand-highlight {
+    color: #C4D7A4;
+    font-weight: 700;
+}
+
+/* Hero Content */
+.hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 700px;
+    padding-bottom: 80px;
+}
+
+.hero-title {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #ffffff;
+    margin-bottom: 24px;
+    letter-spacing: -1.5px;
+}
+
+.highlight-text {
+    color: #E8B84D;
+    font-weight: 700;
+}
+
+.hero-description {
+    font-size: 18px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+    font-weight: 400;
+}
+
+/* CTA Buttons */
+.cta-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 36px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    white-space: nowrap;
+}
+
+/* Login Button */
+.btn-login {
+    background-color: transparent;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+.btn-login:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+/* Get Started Button */
+.btn-get-started {
+    background-color: #B4C89D;
+    color: #1a1a1a;
+    border: 2px solid #B4C89D;
+}
+
+.btn-get-started i {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.btn-get-started:hover {
+    background-color: #A5BA8E;
+    border-color: #A5BA8E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(180, 200, 157, 0.4);
+}
+
+.btn-get-started:hover i {
+    transform: translateX(4px);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Large Desktop */
+@media (max-width: 1440px) {
+    .hero-title {
+        font-size: 58px;
+    }
+}
+
+/* Desktop */
+@media (max-width: 1200px) {
+    .landing-page {
+        padding: 36px 50px;
+    }
+
+    .hero-title {
+        font-size: 52px;
+    }
+
+    .hero-description {
+        font-size: 17px;
+    }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .landing-page {
+        padding: 32px 40px;
+    }
+
+    .hero-title {
+        font-size: 48px;
+    }
+
+    .hero-content {
+        max-width: 650px;
+        padding-bottom: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    body::before {
+        background-attachment: scroll;
+    }
+
+    .landing-page {
+        padding: 28px 32px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .logo {
+        width: 38px;
+        height: 38px;
+    }
+
+    .brand-text {
+        font-size: 19px;
+    }
+
+    .hero-content {
+        justify-content: flex-start;
+        padding-top: 40px;
+    }
+
+    .hero-title {
+        font-size: 42px;
+        margin-bottom: 20px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+        margin-bottom: 32px;
+    }
+
+    .hero-description br {
+        display: none;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        gap: 14px;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 15px 32px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .landing-page {
+        padding: 24px 24px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .logo {
+        width: 36px;
+        height: 36px;
+    }
+
+    .brand-text {
+        font-size: 17px;
+    }
+
+    .hero-content {
+        padding-bottom: 40px;
+        padding-top: 60px;
+    }
+
+    .hero-title {
+        font-size: 36px;
+        letter-spacing: -1px;
+    }
+
+    .hero-description {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .btn {
+        padding: 14px 28px;
+        font-size: 15px;
+        min-height: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .landing-page {
+        padding: 20px 20px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .header {
+        margin-bottom: 0;
+    }
+
+    .logo {
+        width: 32px;
+        height: 32px;
+    }
+
+    .brand-text {
+        font-size: 16px;
+    }
+
+    .hero-content {
+        padding-top: 80px;
+    }
+
+    .hero-title {
+        font-size: 32px;
+        margin-bottom: 16px;
+    }
+
+    .hero-description {
+        font-size: 14px;
+        margin-bottom: 28px;
+    }
+
+    .btn {
+        padding: 13px 24px;
+        font-size: 14px;
+        min-height: 48px;
+    }
+}
+
+@media (max-width: 360px) {
+    .landing-page {
+        padding: 18px 16px;
+    }
+
+    .logo {
+        width: 30px;
+        height: 30px;
+    }
+
+    .brand-text {
+        font-size: 15px;
+    }
+
+    .hero-title {
+        font-size: 28px;
+        letter-spacing: -0.8px;
+    }
+
+    .hero-description {
+        font-size: 13px;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 13px;
+    }
+}
+
+/* Landscape Mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+    .landing-page {
+        padding: 20px 40px;
+    }
+
+    .hero-content {
+        padding-bottom: 20px;
+    }
+
+    .hero-title {
+        font-size: 36px;
+        margin-bottom: 12px;
+    }
+
+    .hero-description {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .hero-description br {
+        display: none;
+    }
+
+    .cta-buttons {
+        flex-direction: row;
+        gap: 16px;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        font-size: 14px;
+    }
+}
+
+/* Fallback for missing background image */
+body:not(:has(::before)) {
+    background: linear-gradient(135deg, #2c3e1f 0%, #3f5a2c 50%, #5a7a3d 100%);
+}
