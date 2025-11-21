@@ -1,3 +1,159 @@
+<?php
+session_start();
+require_once __DIR__ . '/../php/db.php';
+
+// If already logged in, redirect to dashboard
+if (isset($_SESSION['user_id'])) {
+    header('Location: dashboard.php');
+    exit;
+}
+
+$error = '';
+$success = false;
+$step = 1; // Track which modal to show
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Determine which form step was submitted
+    if (isset($_POST['step'])) {
+        $step = (int)$_POST['step'];
+    }
+
+    if ($step === 3) { // Final submission from review page
+        // Validate required fields
+        $required = ['firstName', 'lastName', 'email', 'password', 'contactNumber', 'address', 'birthdate', 'gender', 'licenseNumber', 'licenseExpiry'];
+        $allFieldsPresent = true;
+        
+        foreach ($required as $field) {
+            if (empty($_POST[$field])) {
+                $allFieldsPresent = false;
+                $error = "Field '$field' is required";
+                break;
+            }
+        }
+
+        if ($allFieldsPresent) {
+            $email = trim($_POST['email']);
+            $password = $_POST['password'];
+            $confirmPassword = $_POST['confirmPassword'] ?? '';
+
+            // Validate email format
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error = 'Invalid email format';
+            }
+            // Validate password
+            elseif (strlen($password) < 8) {
+                $error = 'Password must be at least 8 characters';
+            }
+            elseif ($password !== $confirmPassword) {
+                $error = 'Passwords do not match';
+            }
+            else {
+                // Check if email already exists
+                try {
+                    $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ?');
+                    $stmt->execute([$email]);
+                    if ($stmt->fetch()) {
+                        $error = 'Email already registered';
+                    }
+                    else {
+                        // Handle file uploads
+                        $uploadDir = __DIR__ . '/../uploads/registration/';
+                        if (!is_dir($uploadDir)) {
+                            mkdir($uploadDir, 0755, true);
+                        }
+
+                        $uploadedFiles = [];
+                        $fileFields = ['licensePhoto', 'nbiClearance', 'proofOfAddress', 'idPicture'];
+
+                        foreach ($fileFields as $field) {
+                            if (isset($_FILES[$field]) && $_FILES[$field]['error'] === UPLOAD_ERR_OK) {
+                                $ext = pathinfo($_FILES[$field]['name'], PATHINFO_EXTENSION);
+                                $filename = $field . '_' . time() . '_' . uniqid() . '.' . $ext;
+                                $filepath = $uploadDir . $filename;
+                                
+                                if (move_uploaded_file($_FILES[$field]['tmp_name'], $filepath)) {
+                                    $uploadedFiles[$field] = '../uploads/registration/' . $filename;
+                                }
+                            }
+                        }
+
+                        // Hash password
+                        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+                        // Build full name
+                        $fullName = trim(($_POST['firstName'] ?? '') . ' ' . ($_POST['middleName'] ?? '') . ' ' . ($_POST['lastName'] ?? '') . ' ' . ($_POST['ext'] ?? ''));
+
+                        // Insert into database
+                        try {
+                            $stmt = $pdo->prepare('
+                                INSERT INTO users (
+                                    name, first_name, last_name, middle_name, ext,
+                                    email, alternative_email, password, 
+                                    phone, address, dob, gender,
+                                    license_number, expiry_date, license_image,
+                                    nbi_clearance, proof_of_address,
+                                    avatar, role, status, created_at, member_since
+                                ) VALUES (
+                                    ?, ?, ?, ?, ?,
+                                    ?, ?, ?,
+                                    ?, ?, ?, ?,
+                                    ?, ?, ?,
+                                    ?, ?,
+                                    ?, ?, ?, NOW(), CURDATE()
+                                )
+                            ');
+                            
+                            $stmt->execute([
+                                $fullName,
+                                $_POST['firstName'],
+                                $_POST['lastName'],
+                                $_POST['middleName'] ?? null,
+                                $_POST['ext'] ?? null,
+                                $email,
+                                $_POST['alternativeEmail'] ?? null,
+                                $hashedPassword,
+                                $_POST['contactNumber'],
+                                $_POST['address'],
+                                $_POST['birthdate'],
+                                $_POST['gender'],
+                                $_POST['licenseNumber'],
+                                $_POST['licenseExpiry'],
+                                $uploadedFiles['licensePhoto'] ?? null,
+                                $uploadedFiles['nbiClearance'] ?? null,
+                                $uploadedFiles['proofOfAddress'] ?? null,
+                                $uploadedFiles['idPicture'] ?? '../assets/user-avatar.png',
+                                'driver',
+                                'pending'
+                            ]);
+
+                            $userId = $pdo->lastInsertId();
+
+                            // Auto-login after registration
+                            $_SESSION['user_id'] = $userId;
+                            $_SESSION['user_name'] = $fullName;
+                            $_SESSION['user_email'] = $email;
+                            $_SESSION['is_logged_in'] = true;
+
+                            $success = true;
+
+                        } catch (PDOException $e) {
+                            // Cleanup uploaded files if database insert fails
+                            foreach ($uploadedFiles as $file) {
+                                if (file_exists($file)) {
+                                    unlink($file);
+                                }
+                            }
+                            $error = 'Registration failed: ' . $e->getMessage();
+                        }
+                    }
+                } catch (PDOException $e) {
+                    $error = 'Database error';
+                }
+            }
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +162,34 @@
     <title>Create an Account - Journeolink</title>
     <link rel="icon" type="image/png" href="../assets/brand-logo.png">
     <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 45px;
+        }
+        .toggle-password-btn {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 16px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toggle-password-btn:hover {
+            color: #222;
+        }
+    </style>
 </head>
 <body>
     <!-- Left Side - Form -->
@@ -19,7 +203,15 @@
             <h1>Create an Account</h1>
             <p class="subtitle">Set up your user account to get started with Journeolink.</p>
 
-            <form id="registerForm" action="#" method="POST">
+            <?php if ($error && $step === 1): ?>
+                <div style="background:#fee;color:#b22;padding:10px;border:1px solid #fbb;border-radius:6px;margin-bottom:15px;">
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
+
+            <form id="registerForm" onsubmit="return false;">
+                <!-- Remove method="POST" and add onsubmit="return false;" to prevent actual form submission -->
+                <input type="hidden" name="step" value="1">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName">First Name</label>
@@ -30,7 +222,8 @@
                             placeholder="First Name" 
                             required
                             minlength="2"
-                            maxlength="50">
+                            maxlength="50"
+                            value="<?php echo htmlspecialchars($_POST['firstName'] ?? ''); ?>">
                     </div>
 
                     <div class="form-group">
@@ -42,7 +235,8 @@
                             placeholder="Last Name" 
                             required
                             minlength="2"
-                            maxlength="50">
+                            maxlength="50"
+                            value="<?php echo htmlspecialchars($_POST['lastName'] ?? ''); ?>">
                     </div>
                 </div>
 
@@ -54,29 +248,40 @@
                         name="email" 
                         placeholder="Email" 
                         required
-                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                        value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Password" 
-                        required
-                        minlength="8">
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Password" 
+                            required
+                            minlength="8">
+                        <button type="button" class="toggle-password-btn" data-target="password">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password</label>
-                    <input 
-                        type="password" 
-                        id="confirmPassword" 
-                        name="confirmPassword" 
-                        placeholder="Confirm Password" 
-                        required
-                        minlength="8">
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            placeholder="Confirm Password" 
+                            required
+                            minlength="8">
+                        <button type="button" class="toggle-password-btn" data-target="confirmPassword">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-register">
@@ -85,7 +290,7 @@
             </form>
 
             <div class="login-link">
-                Already have an account? <a href="login.html">Log in</a>
+                Already have an account? <a href="login.php">Log in</a>
             </div>
         </div>
     </div>
@@ -106,16 +311,23 @@
                     <h1>Personal Information</h1>
                     <p class="subtitle">Fill in your accurate and valid details to ensure a smooth onboarding experience.</p>
 
-                    <form id="personalInfoForm">
+                    <form id="personalInfoForm" method="POST">
+                        <input type="hidden" name="step" value="2">
+                        <!-- Preserve previous form data -->
+                        <input type="hidden" name="firstName" id="hidden-firstName">
+                        <input type="hidden" name="email" id="hidden-email">
+                        <input type="hidden" name="password" id="hidden-password">
+                        <input type="hidden" name="confirmPassword" id="hidden-confirmPassword">
+
                         <!-- Name Section -->
                         <div class="form-section">
                             <label class="section-label">Name</label>
                             <div class="name-row">
                                 <div class="form-group">
-                                    <label for="lastName">Last Name</label>
+                                    <label for="lastNameFull">Last Name</label>
                                     <input 
                                         type="text" 
-                                        id="lastName" 
+                                        id="lastNameFull" 
                                         name="lastName" 
                                         placeholder="Last name" 
                                         required>
@@ -232,7 +444,22 @@
                     <h1>Almost Done - Upload Your Files</h1>
                     <p class="subtitle">Submit your driver's license and supporting documents for verification.</p>
 
-                    <form id="uploadDocumentsForm">
+                    <form id="uploadDocumentsForm" method="POST">
+                        <input type="hidden" name="step" value="3">
+                        <!-- Hidden fields to preserve all previous data -->
+                        <input type="hidden" name="firstName" id="hidden-firstName2">
+                        <input type="hidden" name="lastName" id="hidden-lastName2">
+                        <input type="hidden" name="email" id="hidden-email2">
+                        <input type="hidden" name="password" id="hidden-password2">
+                        <input type="hidden" name="confirmPassword" id="hidden-confirmPassword2">
+                        <input type="hidden" name="middleName" id="hidden-middleName">
+                        <input type="hidden" name="ext" id="hidden-ext">
+                        <input type="hidden" name="birthdate" id="hidden-birthdate">
+                        <input type="hidden" name="gender" id="hidden-gender">
+                        <input type="hidden" name="address" id="hidden-address">
+                        <input type="hidden" name="contactNumber" id="hidden-contactNumber">
+                        <input type="hidden" name="alternativeEmail" id="hidden-alternativeEmail">
+
                         <!-- License Section -->
                         <div class="form-section">
                             <label class="section-label">License</label>
@@ -380,26 +607,36 @@
                     <h1>One Last Step - Review Your Application</h1>
                     <p class="subtitle">Make sure your information is correct. You won't be able to edit after submission.</p>
 
-                    <form id="reviewApplicationForm">
+                    <?php if ($error && $step === 3): ?>
+                        <div style="background:#fee;color:#b22;padding:10px;border:1px solid #fbb;border-radius:6px;margin-bottom:15px;">
+                            <?php echo htmlspecialchars($error); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form id="reviewApplicationForm" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="step" value="3">
+                        
+                        <!-- All form data as hidden fields will be added by JavaScript -->
+                        
                         <!-- Name Section -->
                         <div class="review-section">
                             <label class="section-label">Name</label>
                             <div class="name-row">
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input type="text" id="review-lastName" readonly>
+                                    <input type="text" id="review-lastName" name="lastName" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input type="text" id="review-firstName" readonly>
+                                    <input type="text" id="review-firstName" name="firstName" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label>Middle Name</label>
-                                    <input type="text" id="review-middleName" readonly>
+                                    <input type="text" id="review-middleName" name="middleName" readonly>
                                 </div>
                                 <div class="form-group ext-group">
                                     <label>Ext.</label>
-                                    <input type="text" id="review-ext" readonly>
+                                    <input type="text" id="review-ext" name="ext" readonly>
                                 </div>
                             </div>
                         </div>
@@ -408,29 +645,29 @@
                         <div class="form-row-half">
                             <div class="form-group">
                                 <label>Birthdate</label>
-                                <input type="text" id="review-birthdate" readonly>
+                                <input type="text" id="review-birthdate" name="birthdate" readonly>
                             </div>
                             <div class="form-group">
                                 <label>Gender</label>
-                                <input type="text" id="review-gender" readonly>
+                                <input type="text" id="review-gender" name="gender" readonly>
                             </div>
                         </div>
 
                         <!-- Address -->
                         <div class="form-group">
                             <label>Address</label>
-                            <input type="text" id="review-address" readonly>
+                            <input type="text" id="review-address" name="address" readonly>
                         </div>
 
                         <!-- Contact Number and Alternative Email -->
                         <div class="form-row-half">
                             <div class="form-group">
                                 <label>Contact Number</label>
-                                <input type="text" id="review-contactNumber" readonly>
+                                <input type="text" id="review-contactNumber" name="contactNumber" readonly>
                             </div>
                             <div class="form-group">
                                 <label>Alternative Email</label>
-                                <input type="text" id="review-alternativeEmail" readonly>
+                                <input type="text" id="review-alternativeEmail" name="alternativeEmail" readonly>
                             </div>
                         </div>
 
@@ -440,11 +677,11 @@
                             <div class="license-row">
                                 <div class="form-group">
                                     <label>License Number</label>
-                                    <input type="text" id="review-licenseNumber" readonly>
+                                    <input type="text" id="review-licenseNumber" name="licenseNumber" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label>License Expiry Date</label>
-                                    <input type="text" id="review-licenseExpiry" readonly>
+                                    <input type="text" id="review-licenseExpiry" name="licenseExpiry" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label>License Photo</label>
@@ -468,6 +705,11 @@
                                 <input type="text" id="review-idPicture" readonly>
                             </div>
                         </div>
+
+                        <!-- Hidden password fields -->
+                        <input type="hidden" name="password" id="review-password">
+                        <input type="hidden" name="confirmPassword" id="review-confirmPassword">
+                        <input type="hidden" name="email" id="review-email">
 
                         <!-- Terms Confirmation -->
                         <div class="form-group checkbox-group">
@@ -498,7 +740,7 @@
     </div>
 
     <!-- Registration Success Modal -->
-    <div id="registrationSuccessModal" class="modal">
+    <div id="registrationSuccessModal" class="modal <?php echo $success ? 'active' : ''; ?>">
         <div class="modal-content">
             <div class="modal-left success-modal-left">
                 <div class="logo-section-center">
@@ -507,7 +749,6 @@
                 </div>
 
                 <div class="success-content">
-                    <div class="success-emoji-inline">🥳</div>
                     <h1 class="success-title">Great Job! Your Application Is In <span class="emoji-icon">🥳</span></h1>
                     <p class="success-message">
                         You are one step away from becoming a Journeolink Driver-Partner! Our team 
@@ -516,7 +757,7 @@
                     </p>
                     <div class="success-buttons">
                         <a href="index.html" class="btn-home">Go Home</a>
-                        <a href="dashboard.html" class="btn-dashboard">Proceed to Dashboard</a>
+                        <a href="dashboard.php" class="btn-dashboard">Proceed to Dashboard</a>
                     </div>
                 </div>
             </div>
@@ -526,7 +767,7 @@
     </div>
 
     <!-- Registration Error Modal -->
-    <div id="registrationErrorModal" class="modal">
+    <div id="registrationErrorModal" class="modal <?php echo ($error && $step === 3) ? 'active' : ''; ?>">
         <div class="modal-content">
             <div class="modal-left error-modal-left">
                 <div class="logo-section">
@@ -536,12 +777,11 @@
 
                 <div class="error-content">
                     <h1 class="error-title">Oops! Something went wrong...</h1>
-                    <p class="error-code">HTTP 500 ERROR - INTERNAL SERVER ERROR</p>
+                    <p class="error-code">ERROR - REGISTRATION FAILED</p>
                     <p class="error-message">
-                        We encountered an unexpected problem. Your application wasn't processed. 
-                        Please try again later or reach out to our support team.
+                        <?php echo $error ? htmlspecialchars($error) : 'We encountered an unexpected problem. Please try again.'; ?>
                     </p>
-                    <a href="index.html" class="btn-home-error">Go Home</a>
+                    <button onclick="location.reload()" class="btn-home-error">Try Again</button>
                 </div>
             </div>
 
@@ -549,6 +789,26 @@
         </div>
     </div>
 
-    <script src="../js/register.js"></script>
+       <script src="../js/register.js"></script>
+    <script>
+        // Password visibility toggle for register form
+        document.querySelectorAll('.toggle-password-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.replace('fa-eye-slash', 'fa-eye');
+                } else {
+                    input.type = 'password';
+                    icon.classList.replace('fa-eye', 'fa-eye-slash');
+                }
+            });
+        });
+    </script>
+</body>
+
 </body>
 </html>

@@ -174,6 +174,35 @@
         }
     });
 
+    // Logout functionality
+    document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        const logoutModal = document.getElementById('logoutModal');
+        if (logoutModal) {
+            logoutModal.classList.add('active');
+        }
+    });
+
+    document.getElementById('confirmLogout')?.addEventListener('click', function() {
+        // Redirect to logout.php to destroy session
+        window.location.href = 'logout.php';
+    });
+
+    document.getElementById('cancelLogout')?.addEventListener('click', function() {
+        const logoutModal = document.getElementById('logoutModal');
+        if (logoutModal) {
+            logoutModal.classList.remove('active');
+        }
+    });
+
+    // Close modal when clicking overlay
+    document.querySelector('#logoutModal .modal-overlay')?.addEventListener('click', function() {
+        const logoutModal = document.getElementById('logoutModal');
+        if (logoutModal) {
+            logoutModal.classList.remove('active');
+        }
+    });
+
     // ========================================
     // Window Resize Handler
     // ========================================
