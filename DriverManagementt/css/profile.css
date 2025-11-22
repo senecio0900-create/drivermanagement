@@ -1327,3 +1327,59 @@
             background-color: #f8f9fa;
             cursor: not-allowed;
         }
+        /* License Image Upload Styling (same as avatar) */
+.license-preview {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f9f9f9;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: inline-block;
+}
+
+.license-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    min-height: 200px;
+    max-height: 400px;
+    transition: filter 0.3s ease;
+}
+
+.license-preview:hover .license-image {
+    filter: brightness(0.8);
+}
+
+.license-upload-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #2c5f2d;
+    color: white;
+    border: 3px solid white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
+.license-upload-btn:hover {
+    background: #1e4620;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.license-upload-btn i {
+    pointer-events: none;
+}

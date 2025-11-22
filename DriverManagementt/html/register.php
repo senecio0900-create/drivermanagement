@@ -791,9 +791,177 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
        <script src="../js/register.js"></script>
     <script>
-        // Password visibility toggle for register form
+        let formData = {};
+
+        // Step 1: Initial Registration Form
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                confirmPassword: document.getElementById('confirmPassword').value
+            };
+
+            // Validate passwords match
+            if (formData.password !== formData.confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            if (formData.password.length < 8) {
+                alert('Password must be at least 8 characters');
+                return;
+            }
+
+            // Show Personal Info Modal
+            document.getElementById('personalInfoModal').style.display = 'flex';
+        });
+
+        // Step 2: Personal Information Form
+        document.getElementById('personalInfoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            formData.lastName = document.getElementById('lastNameFull').value;
+            formData.firstName = document.getElementById('firstNameFull').value;
+            formData.middleName = document.getElementById('middleName').value;
+            formData.ext = document.getElementById('ext').value;
+            formData.birthdate = document.getElementById('birthdate').value;
+            formData.gender = document.getElementById('gender').value;
+            formData.address = document.getElementById('address').value;
+            formData.contactNumber = document.getElementById('contactNumber').value;
+            formData.alternativeEmail = document.getElementById('alternativeEmail').value;
+
+            // Close personal info modal
+            document.getElementById('personalInfoModal').style.display = 'none';
+
+            // Show upload documents modal
+            document.getElementById('uploadDocumentsModal').style.display = 'flex';
+        });
+
+        // Step 3: Upload Documents Form
+        document.getElementById('uploadDocumentsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            formData.licenseNumber = document.getElementById('licenseNumber').value;
+            formData.licenseExpiry = document.getElementById('licenseExpiry').value;
+            formData.licensePhoto = document.getElementById('licensePhoto').files[0];
+            formData.nbiClearance = document.getElementById('nbiClearance').files[0];
+            formData.proofOfAddress = document.getElementById('proofOfAddress').files[0];
+            formData.idPicture = document.getElementById('idPicture').files[0];
+            formData.termsAccept = document.getElementById('termsAccept').checked;
+
+            // Validate files
+            if (!formData.licensePhoto || !formData.nbiClearance || !formData.proofOfAddress || !formData.idPicture) {
+                alert('All documents are required');
+                return;
+            }
+
+            if (!formData.termsAccept) {
+                alert('You must accept the terms and conditions');
+                return;
+            }
+
+            // Show review modal
+            populateReviewModal();
+            document.getElementById('uploadDocumentsModal').style.display = 'none';
+            document.getElementById('reviewApplicationModal').style.display = 'flex';
+        });
+
+        // Populate review modal
+        function populateReviewModal() {
+            document.getElementById('review-lastName').value = formData.lastName;
+            document.getElementById('review-firstName').value = formData.firstName;
+            document.getElementById('review-middleName').value = formData.middleName;
+            document.getElementById('review-ext').value = formData.ext;
+            document.getElementById('review-birthdate').value = formData.birthdate;
+            document.getElementById('review-gender').value = formData.gender;
+            document.getElementById('review-address').value = formData.address;
+            document.getElementById('review-contactNumber').value = formData.contactNumber;
+            document.getElementById('review-alternativeEmail').value = formData.alternativeEmail;
+            document.getElementById('review-licenseNumber').value = formData.licenseNumber;
+            document.getElementById('review-licenseExpiry').value = formData.licenseExpiry;
+            document.getElementById('review-licensePhoto').value = formData.licensePhoto?.name || '';
+            document.getElementById('review-nbiClearance').value = formData.nbiClearance?.name || '';
+            document.getElementById('review-proofOfAddress').value = formData.proofOfAddress?.name || '';
+            document.getElementById('review-idPicture').value = formData.idPicture?.name || '';
+            document.getElementById('review-password').value = formData.password;
+            document.getElementById('review-confirmPassword').value = formData.confirmPassword;
+            document.getElementById('review-email').value = formData.email;
+        }
+
+        // Step 4: Final Submission
+        document.getElementById('reviewApplicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Create FormData for file upload
+            const finalForm = new FormData();
+            finalForm.append('step', '3');
+            finalForm.append('firstName', formData.firstName);
+            finalForm.append('lastName', formData.lastName);
+            finalForm.append('middleName', formData.middleName);
+            finalForm.append('ext', formData.ext);
+            finalForm.append('email', formData.email);
+            finalForm.append('password', formData.password);
+            finalForm.append('confirmPassword', formData.confirmPassword);
+            finalForm.append('birthdate', formData.birthdate);
+            finalForm.append('gender', formData.gender);
+            finalForm.append('address', formData.address);
+            finalForm.append('contactNumber', formData.contactNumber);
+            finalForm.append('alternativeEmail', formData.alternativeEmail);
+            finalForm.append('licenseNumber', formData.licenseNumber);
+            finalForm.append('licenseExpiry', formData.licenseExpiry);
+            
+            // Append files
+            if (formData.licensePhoto) finalForm.append('licensePhoto', formData.licensePhoto);
+            if (formData.nbiClearance) finalForm.append('nbiClearance', formData.nbiClearance);
+            if (formData.proofOfAddress) finalForm.append('proofOfAddress', formData.proofOfAddress);
+            if (formData.idPicture) finalForm.append('idPicture', formData.idPicture);
+
+            // Submit using fetch
+            fetch(window.location.href, {
+                method: 'POST',
+                body: finalForm
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Check if registration was successful
+                if (html.includes('registrationSuccessModal') && html.includes('active')) {
+                    document.getElementById('reviewApplicationModal').style.display = 'none';
+                    document.getElementById('registrationSuccessModal').style.display = 'flex';
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.php';
+                    }, 3000);
+                } else if (html.includes('registrationErrorModal') && html.includes('active')) {
+                    document.getElementById('reviewApplicationModal').style.display = 'none';
+                    document.getElementById('registrationErrorModal').style.display = 'flex';
+                } else {
+                    alert('Registration failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+
+        // Back buttons
+        document.getElementById('backToPersonalInfo')?.addEventListener('click', () => {
+            document.getElementById('uploadDocumentsModal').style.display = 'none';
+            document.getElementById('personalInfoModal').style.display = 'flex';
+        });
+
+        document.getElementById('backToUpload')?.addEventListener('click', () => {
+            document.getElementById('reviewApplicationModal').style.display = 'none';
+            document.getElementById('uploadDocumentsModal').style.display = 'flex';
+        });
+
+        // Password visibility toggle
         document.querySelectorAll('.toggle-password-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
                 const targetId = this.getAttribute('data-target');
                 const input = document.getElementById(targetId);
                 const icon = this.querySelector('i');
