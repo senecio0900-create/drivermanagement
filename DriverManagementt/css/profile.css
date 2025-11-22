@@ -1327,8 +1327,7 @@
             background-color: #f8f9fa;
             cursor: not-allowed;
         }
-        /* License Image Upload Styling (same as avatar) */
-.license-preview {
+   .license-preview {
     position: relative;
     width: 100%;
     max-width: 450px;
@@ -1338,6 +1337,7 @@
     background: #f9f9f9;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     display: inline-block;
+    margin-bottom: 15px;
 }
 
 .license-image {
@@ -1354,6 +1354,7 @@
     filter: brightness(0.8);
 }
 
+/* License Upload Button (Camera Icon) */
 .license-upload-btn {
     position: absolute;
     bottom: 5px;
@@ -1372,6 +1373,7 @@
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     z-index: 10;
+    padding: 0;
 }
 
 .license-upload-btn:hover {

@@ -325,7 +325,7 @@
             originalCheckboxes[checkbox.value] = checkbox.checked;
         });
 
-        // // License Upload Functionality
+        // License Upload Functionality
         // if (uploadBtn && fileInput) {
         //     uploadBtn.addEventListener('click', function() {
         //         fileInput.click();
@@ -669,29 +669,29 @@
         });
     }
 
-    // ===== LICENSE UPLOAD =====
-    document.getElementById('uploadLicenseBtn').addEventListener('click', () => {
-        document.getElementById('licenseFileInput').click();
-    });
+    // // ===== LICENSE UPLOAD =====
+    // document.getElementById('uploadLicenseBtn').addEventListener('click', () => {
+    //     document.getElementById('licenseFileInput').click();
+    // });
 
-    document.getElementById('licenseFileInput').addEventListener('change', function () {
-        if (this.files && this.files[0]) {
-            // Show loading state
-            const btn = document.getElementById('uploadLicenseBtn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
-            btn.disabled = true;
+    // document.getElementById('licenseFileInput').addEventListener('change', function () {
+    //     if (this.files && this.files[0]) {
+    //         // Show loading state
+    //         const btn = document.getElementById('uploadLicenseBtn');
+    //         const originalText = btn.innerHTML;
+    //         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
+    //         btn.disabled = true;
             
-            // Submit the form
-            const form = document.getElementById('licenseUploadForm');
-            form.submit();
+    //         // Submit the form
+    //         const form = document.getElementById('licenseUploadForm');
+    //         form.submit();
             
-            // Reset after 3 seconds
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }, 3000);
-        }
-    });
+    //         // Reset after 3 seconds
+    //         setTimeout(() => {
+    //             btn.innerHTML = originalText;
+    //             btn.disabled = false;
+    //         }, 3000);
+    //     }
+    // });
 
 })();

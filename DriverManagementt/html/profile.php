@@ -109,20 +109,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($oldLicense && strpos($oldLicense, 'licence-sample') === false) {
                             $oldPath = __DIR__ . '/../' . ltrim(str_replace('../', '', $oldLicense), '/');
                             if (file_exists($oldPath)) {
-                                unlink($oldPath);
+                                @unlink($oldPath);
                             }
                         }
 
-                        // Update database with licenses path
+                        // Update database with correct path
                         $stmt = $pdo->prepare('UPDATE users SET license_image = ? WHERE id = ?');
-                        $stmt->execute(['uploads/licenses/' . $filename, $userId]);
+                        $stmt->execute(['../uploads/licenses/' . $filename, $userId]);
                         
+                        // Redirect to refresh page
                         header('Location: profile.php');
-                        exit;
+                        exit();
                     } else {
                         $error = 'Failed to upload license image';
                     }
                 }
+            } else {
+                $error = 'No file selected or upload error';
             }
         } elseif ($action === 'upload_avatar') {
             // Handle avatar/2x2 ID picture upload
@@ -202,14 +205,30 @@ try {
     die('Error fetching user data: ' . $e->getMessage());
 }
 
-// After fetching $user (right before <!DOCTYPE>):
+// After fetching $user, calculate license display path:
 $licenseRaw = $user['license_image'] ?? '';
 $licenseDisplay = '../assets/licence-sample.jpg';
-if ($licenseRaw) {
-    $clean = ltrim(str_replace(['../','..\\'], '', $licenseRaw), '/');
-    $abs   = __DIR__ . '/../' . $clean;
-    if (file_exists($abs)) {
+
+if (!empty($licenseRaw) && strpos($licenseRaw, 'licence-sample') === false) {
+    // Remove leading ../ and normalize slashes
+    $clean = ltrim(str_replace(['../', '..\\', '\\'], '/', $licenseRaw), '/');
+    $fullPath = __DIR__ . '/../' . $clean;
+    
+    // Check if file exists
+    if (file_exists($fullPath)) {
         $licenseDisplay = '../' . $clean . '?v=' . time();
+    } else {
+        // Try alternate locations
+        $altPaths = [
+            __DIR__ . '/../uploads/licenses/' . basename($licenseRaw),
+            __DIR__ . '/../uploads/registration/' . basename($licenseRaw),
+        ];
+        foreach ($altPaths as $altPath) {
+            if (file_exists($altPath)) {
+                $licenseDisplay = '../uploads/' . (strpos($altPath, 'licenses') ? 'licenses' : 'registration') . '/' . basename($licenseRaw) . '?v=' . time();
+                break;
+            }
+        }
     }
 }
 ?>
@@ -447,14 +466,19 @@ if ($licenseRaw) {
                                     <label for="licenseImage">License Image</label>
                                     <div class="license-upload-container">
                                         <div class="license-preview" id="licensePreview">
-                                            <img src="<?php echo htmlspecialchars($user['license_image'] ?: '../assets/license-sample.svg'); ?>" alt="Driver's License" class="license-image" id="licenseImage">
+                                            <img src="<?php echo htmlspecialchars($licenseDisplay); ?>" 
+                                                 alt="Driver's License" 
+                                                 class="license-image" 
+                                                 id="licenseImage"
+                                                 onerror="this.src='../assets/licence-sample.jpg';">
+                                            <form id="licenseUploadForm" method="POST" enctype="multipart/form-data" style="display:none;">
+                                                <input type="hidden" name="action" value="upload_license">
+                                                <input type="file" name="licenseImage" id="licenseFileInput" accept="image/*">
+                                            </form>
+                                            <button type="button" class="license-upload-btn" id="uploadLicenseBtn" title="Change license image">
+                                                <i class="fa-solid fa-camera"></i>
+                                            </button>
                                         </div>
-                                        <button type="button" class="upload-btn" id="uploadLicenseBtn">
-                                            <i class="fa-solid fa-upload"></i>
-                                            Upload New
-                                        </button>
-                                        <input type="file" id="licenseFileInput" accept="image/jpeg,image/png,image/jpg,image/gif" style="display: none;">
-                                        <p class="upload-hint">Max 5MB • JPG, PNG, GIF</p>
                                     </div>
                                 </div>
 
@@ -881,25 +905,16 @@ if ($licenseRaw) {
         });
 
         // ===== LICENSE UPLOAD =====
-        // document.getElementById('uploadLicenseBtn').addEventListener('click', () => {
-        //     document.getElementById('licenseFileInput').click();
-        // });
+        document.getElementById('uploadLicenseBtn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('licenseFileInput').click();
+        });
 
-        // document.getElementById('licenseFileInput').addEventListener('change', function () {
-        //     if (this.files && this.files[0]) {
-        //         const btn = document.getElementById('uploadLicenseBtn');
-        //         const originalHTML = btn.innerHTML;
-        //         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
-        //         btn.disabled = true;
-                
-        //         // Submit form and reload page after delay
-        //         document.getElementById('licenseUploadForm').submit();
-                
-        //         setTimeout(() => {
-        //             window.location.reload();
-        //         }, 1500);
-        //     }
-        // });
+        document.getElementById('licenseFileInput')?.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                document.getElementById('licenseUploadForm').submit();
+            }
+        });
         
 
         // ===== AVATAR UPLOAD =====
