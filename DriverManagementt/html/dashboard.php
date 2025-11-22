@@ -31,8 +31,8 @@ $email = $_SESSION['user_email'] ?? '';
         </div>
         <div class="header-right">
             <div class="user-info">
-                <span class="user-name"><?php echo htmlspecialchars($name); ?></span>
-                <span class="user-email"><?php echo htmlspecialchars($email); ?></span>
+                <span class="user-name">Jenn Mercado</span>
+                <span class="user-email">jennmercado@email.com</span>
             </div>
             <img src="../assets/user-avatar.png" alt="User Avatar" class="user-avatar">
         </div>
@@ -47,7 +47,7 @@ $email = $_SESSION['user_email'] ?? '';
     
     <nav class="sidebar-nav">
         <div class="nav-section">
-            <a href="dashboard.html" class="nav-item" data-page="dashboard">
+            <a href="dashboard.php" class="nav-item" data-page="dashboard">
                 <span class="icon"><i class="fa-solid fa-grip"></i></span>
                 <span class="nav-text">Dashboard</span> 
             </a>
@@ -73,11 +73,11 @@ $email = $_SESSION['user_email'] ?? '';
             <div class="nav-section-title">
                 <i class="fa-solid fa-gear"></i> GENERAL
             </div>
-            <a href="profile.html" class="nav-item" data-page="profile">
+            <a href="profile.php" class="nav-item" data-page="profile">
                 <span class="icon"><i class="fa-solid fa-user"></i></span>
                 <span class="nav-text">Profile</span>
             </a>
-            <a href="" class="nav-item" id="logoutBtn">
+            <a href="login.php" class="nav-item" id="logoutBtn">
                 <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
                 <span class="nav-text">Logout</span>
             </a>
@@ -90,7 +90,7 @@ $email = $_SESSION['user_email'] ?? '';
         <div class="dashboard-header">
             <div class="dashboard-title">
                 <h1>Dashboard</h1>
-                <p class="welcome-text">Welcome back, <strong><?php echo htmlspecialchars(explode(' ', $name)[0]); ?>!</strong> Ready for your next journey?</p>
+                <p class="welcome-text">Welcome back, <strong>Jenn!</strong> Ready for your next journey?</p>
             </div>
             <div class="status-toggle">
                 <span class="status-label">Offline</span>

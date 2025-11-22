@@ -41,6 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Update driver information
             $vehicleCategories = isset($_POST['vehicleCapability']) ? json_encode($_POST['vehicleCapability']) : json_encode([]);
             
+            // Convert date strings to proper format
+            $issueDate = !empty($_POST['issueDate']) ? date('Y-m-d', strtotime($_POST['issueDate'])) : null;
+            $expiryDate = !empty($_POST['expiryDate']) ? date('Y-m-d', strtotime($_POST['expiryDate'])) : null;
+            
             $stmt = $pdo->prepare('
                 UPDATE users 
                 SET license_number = ?, issue_date = ?, expiry_date = ?, 
@@ -49,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ');
             $stmt->execute([
                 $_POST['licenseNumber'],
-                $_POST['issueDate'],
-                $_POST['expiryDate'],
+                $issueDate,
+                $expiryDate,
                 $_POST['yearsExperience'],
                 $_POST['previousJobs'],
                 $vehicleCategories,
@@ -78,21 +82,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
         } elseif ($action === 'upload_license') {
-            // Handle license image upload
-            if (isset($_FILES['licenseImage']) && $_FILES['licenseImage']['error'] === UPLOAD_ERR_OK) {
+            if (!empty($_FILES['licenseImage']) && $_FILES['licenseImage']['error'] === UPLOAD_ERR_OK) {
                 $uploadDir = __DIR__ . '/../uploads/licenses/';
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0755, true);
                 }
+                $allowed = ['image/jpeg','image/jpg','image/png','image/gif','image/pjpeg'];
+                $mime = $_FILES['licenseImage']['type'];
+                if (!in_array($mime, $allowed)) {
+                    $error = 'Invalid file type.';
+                } else {
+                    $ext = strtolower(pathinfo($_FILES['licenseImage']['name'], PATHINFO_EXTENSION));
+                    $fname = 'license_' . $userId . '_' . time() . '.' . $ext;
+                    $abs   = $uploadDir . $fname;
+                    if (move_uploaded_file($_FILES['licenseImage']['tmp_name'], $abs)) {
+                        // Remove old file
+                        $q = $pdo->prepare('SELECT license_image FROM users WHERE id = ?');
+                        $q->execute([$userId]);
+                        $old = $q->fetchColumn();
+                        if ($old && $old !== 'assets/licence-sample.jpg') {
+                            $oldAbs = __DIR__ . '/../' . ltrim($old, '/');
+                            if (file_exists($oldAbs)) { @unlink($oldAbs); }
+                        }
+                        // Save new relative path (no ../ prefix)
+                        $rel = 'uploads/licenses/' . $fname;
+                        $u = $pdo->prepare('UPDATE users SET license_image = ? WHERE id = ?');
+                        $u->execute([$rel, $userId]);
+                        $success = 'License image uploaded successfully';
+                        // Don't redirect - let the page reload naturally with updated data
+                    } else {
+                        $error = 'Upload failed.';
+                    }
+                }
+            } else {
+                $error = 'No file selected.';
+            }
+        } elseif ($action === 'upload_avatar') {
+            // Handle avatar/2x2 ID picture upload
+            if (isset($_FILES['avatarImage']) && $_FILES['avatarImage']['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = __DIR__ . '/../uploads/avatars/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
 
-                $ext = pathinfo($_FILES['licenseImage']['name'], PATHINFO_EXTENSION);
-                $filename = 'license_' . $userId . '_' . time() . '.' . $ext;
-                $filepath = $uploadDir . $filename;
+                // Validate file type
+                $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                $fileType = $_FILES['avatarImage']['type'];
+                
+                if (!in_array($fileType, $allowedTypes)) {
+                    $error = 'Invalid file type. Only JPG, PNG, and GIF allowed.';
+                } else {
+                    $ext = pathinfo($_FILES['avatarImage']['name'], PATHINFO_EXTENSION);
+                    $filename = 'avatar_' . $userId . '_' . time() . '.' . $ext;
+                    $filepath = $uploadDir . $filename;
 
-                if (move_uploaded_file($_FILES['licenseImage']['tmp_name'], $filepath)) {
-                    $stmt = $pdo->prepare('UPDATE users SET license_image = ? WHERE id = ?');
-                    $stmt->execute(['../uploads/licenses/' . $filename, $userId]);
-                    $success = 'License image uploaded successfully';
+                    if (move_uploaded_file($_FILES['avatarImage']['tmp_name'], $filepath)) {
+                        // Delete old avatar if it exists and is not default
+                        $stmt = $pdo->prepare('SELECT avatar FROM users WHERE id = ?');
+                        $stmt->execute([$userId]);
+                        $oldAvatar = $stmt->fetchColumn();
+                        
+                        if ($oldAvatar && $oldAvatar !== '../assets/user-avatar.png' && file_exists(__DIR__ . '/' . $oldAvatar)) {
+                            unlink(__DIR__ . '/' . $oldAvatar);
+                        }
+
+                        // Update database
+                        $stmt = $pdo->prepare('UPDATE users SET avatar = ? WHERE id = ?');
+                        $stmt->execute(['../uploads/avatars/' . $filename, $userId]);
+                        $success = 'Profile picture updated successfully';
+                    } else {
+                        $error = 'Failed to upload image';
+                    }
                 }
             }
         }
@@ -134,12 +194,25 @@ try {
 } catch (PDOException $e) {
     die('Error fetching user data: ' . $e->getMessage());
 }
+
+// After fetching $user (right before <!DOCTYPE>):
+$licenseRaw = $user['license_image'] ?? '';
+$licenseDisplay = '../assets/licence-sample.jpg';
+if ($licenseRaw) {
+    $clean = ltrim(str_replace(['../','..\\'], '', $licenseRaw), '/');
+    $abs   = __DIR__ . '/../' . $clean;
+    if (file_exists($abs)) {
+        $licenseDisplay = '../' . $clean . '?v=' . time();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
     <title>Profile - JourneoLink Driver</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
     <link rel="stylesheet" href="../css/dashboard.css">
@@ -230,7 +303,14 @@ try {
             <aside class="profile-sidebar">
                 <div class="profile-card">
                     <div class="profile-avatar-container">
-                        <img src="<?php echo htmlspecialchars($user['avatar']); ?>" alt="<?php echo htmlspecialchars($user['name']); ?>" class="profile-avatar">
+                        <img src="<?php echo htmlspecialchars($user['avatar']); ?>" alt="<?php echo htmlspecialchars($user['name']); ?>" class="profile-avatar" id="profileAvatar">
+                        <form id="avatarUploadForm" method="POST" enctype="multipart/form-data" style="display:none;">
+                            <input type="hidden" name="action" value="upload_avatar">
+                            <input type="file" name="avatarImage" id="avatarFileInput" accept="image/*">
+                        </form>
+                        <button class="avatar-upload-btn" id="uploadAvatarBtn" title="Change profile picture">
+                            <i class="fa-solid fa-camera"></i>
+                        </button>
                     </div>
                     <h2 class="profile-name"><?php echo htmlspecialchars($user['name']); ?></h2>
                     <p class="profile-role"><?php echo ucfirst(htmlspecialchars($user['role'])); ?></p>
@@ -360,9 +440,24 @@ try {
                                     <label for="licenseImage">License Image</label>
                                     <div class="license-upload-container">
                                         <div class="license-preview" id="licensePreview">
-                                            <img src="<?php echo htmlspecialchars($user['license_image'] ?? '../assets/licence-sample.jpg'); ?>" alt="Driver's License" class="license-image" id="licenseImage">
+                                            <?php 
+                                            $licenseRaw = $user['license_image'] ?? '';
+                                            $licenseDisplay = '../assets/licence-sample.jpg';
+                                            if ($licenseRaw) {
+                                                $clean = ltrim(str_replace(['../','..\\'], '', $licenseRaw), '/');
+                                                $abs   = __DIR__ . '/../' . $clean;
+                                                if (file_exists($abs)) {
+                                                    $licenseDisplay = '../' . $clean . '?v=' . time();
+                                                }
+                                            }
+                                            ?>
+                                            <img src="<?php echo htmlspecialchars($licenseDisplay); ?>"
+                                                 alt="Driver's License"
+                                                 class="license-image"
+                                                 id="licenseImage"
+                                                 onerror="this.src='../assets/licence-sample.jpg';">
                                         </div>
-                                        <form id="licenseUploadForm" method="POST" enctype="multipart/form-data" style="display:inline;">
+                                        <form id="licenseUploadForm" method="POST" enctype="multipart/form-data">
                                             <input type="hidden" name="action" value="upload_license">
                                             <button type="button" class="upload-btn" id="uploadLicenseBtn">
                                                 <i class="fa-solid fa-upload"></i>
@@ -605,61 +700,57 @@ try {
                     
                     <div class="edit-form-group">
                         <label for="editLicenseNumber">Active License Number</label>
-                        <div class="input-with-icon">
-                            <input type="password" id="editLicenseNumber" name="licenseNumber" class="edit-form-input password-input" value="<?php echo htmlspecialchars($user['license_number'] ?? ''); ?>" required>
-                            <button type="button" class="toggle-password-btn" data-target="editLicenseNumber">
-                                <i class="fa-solid fa-eye-slash"></i>
-                            </button>
-                        </div>
+                        <input type="text" id="editLicenseNumber" name="licenseNumber" class="edit-form-input" value="<?php echo htmlspecialchars($user['license_number'] ?? ''); ?>" required>
                     </div>
 
                     <div class="form-row-modal">
                         <div class="edit-form-group">
                             <label for="editIssueDate">Issue Date</label>
-                            <input type="text" id="editIssueDate" name="issueDate" class="edit-form-input" placeholder="mm/dd/yy" value="<?php echo htmlspecialchars($issueDate); ?>" required>
+                            <input type="date" id="editIssueDate" name="issueDate" class="edit-form-input" value="<?php echo $user['issue_date'] ? htmlspecialchars($user['issue_date']) : ''; ?>" required>
                         </div>
                         <div class="edit-form-group">
                             <label for="editExpiryDate">Expiry Date</label>
-                            <input type="text" id="editExpiryDate" name="expiryDate" class="edit-form-input" placeholder="mm/dd/yy" value="<?php echo htmlspecialchars($expiryDate); ?>" required>
+                            <input type="date" id="editExpiryDate" name="expiryDate" class="edit-form-input" value="<?php echo $user['expiry_date'] ? htmlspecialchars($user['expiry_date']) : ''; ?>" required>
                         </div>
                     </div>
 
                     <div class="edit-form-group">
                         <label for="editYearsExperience">Years of Experience</label>
-                        <input type="text" id="editYearsExperience" name="yearsExperience" class="edit-form-input" placeholder="Total Years of Experience" value="<?php echo htmlspecialchars($user['years_experience'] ?? ''); ?>" required>
+                        <input type="number" id="editYearsExperience" name="yearsExperience" class="edit-form-input" value="<?php echo htmlspecialchars($user['years_experience'] ?? ''); ?>" required>
                     </div>
 
                     <div class="edit-form-group">
-                        <label for="editPreviousJobs">Previous Driving Job</label>
-                        <input type="text" id="editPreviousJobs" name="previousJobs" class="edit-form-input" placeholder="Previous Driving Job" value="<?php echo htmlspecialchars($user['previous_jobs'] ?? ''); ?>" required>
+                        <label for="editPreviousJobs">Previous Driving Jobs</label>
+                        <textarea id="editPreviousJobs" name="previousJobs" class="edit-form-input form-textarea" rows="4" required><?php echo htmlspecialchars($user['previous_jobs'] ?? ''); ?></textarea>
                     </div>
 
                     <div class="edit-form-group">
-                        <label for="editVehicleCapability">Vehicle Driving Capability</label>
-                        <div class="custom-dropdown" id="vehicleDropdown">
-                            <button type="button" class="dropdown-toggle" id="vehicleDropdownToggle">
-                                <span class="dropdown-label">Select Vehicle Capability</span>
-                                <i class="fa-solid fa-chevron-up"></i>
-                            </button>
-                            <div class="dropdown-menu" id="vehicleDropdownMenu">
-                                <div class="dropdown-header">Available roles</div>
-                                <label class="dropdown-item">
-                                    <input type="checkbox" name="vehicleCapability[]" value="sedan" <?php echo in_array('sedan', $vehicleCategories) ? 'checked' : ''; ?>>
-                                    <span>Sedan</span>
-                                </label>
-                                <label class="dropdown-item">
-                                    <input type="checkbox" name="vehicleCapability[]" value="suv" <?php echo in_array('suv', $vehicleCategories) ? 'checked' : ''; ?>>
-                                    <span>SUV</span>
-                                </label>
-                                <label class="dropdown-item">
-                                    <input type="checkbox" name="vehicleCapability[]" value="minivan" <?php echo in_array('minivan', $vehicleCategories) ? 'checked' : ''; ?>>
-                                    <span>Minivan</span>
-                                </label>
-                                <label class="dropdown-item">
-                                    <input type="checkbox" name="vehicleCapability[]" value="hatchback" <?php echo in_array('hatchback', $vehicleCategories) ? 'checked' : ''; ?>>
-                                    <span>Hatchback</span>
-                                </label>
-                            </div>
+                        <label>Vehicle Driving Capability</label>
+                        <div class="vehicle-categories">
+                            <label class="vehicle-category-item">
+                                <input type="checkbox" name="vehicleCapability[]" value="sedan" <?php echo in_array('sedan', $vehicleCategories) ? 'checked' : ''; ?>>
+                                <span class="category-badge">Sedan</span>
+                            </label>
+                            <label class="vehicle-category-item">
+                                <input type="checkbox" name="vehicleCapability[]" value="suv" <?php echo in_array('suv', $vehicleCategories) ? 'checked' : ''; ?>>
+                                <span class="category-badge">SUV</span>
+                            </label>
+                            <label class="vehicle-category-item">
+                                <input type="checkbox" name="vehicleCapability[]" value="minibus" <?php echo in_array('minibus', $vehicleCategories) ? 'checked' : ''; ?>>
+                                <span class="category-badge">Minibus</span>
+                            </label>
+                            <label class="vehicle-category-item">
+                                <input type="checkbox" name="vehicleCapability[]" value="van" <?php echo in_array('van', $vehicleCategories) ? 'checked' : ''; ?>>
+                                <span class="category-badge">Van</span>
+                            </label>
+                            <label class="vehicle-category-item">
+                                <input type="checkbox" name="vehicleCapability[]" value="truck" <?php echo in_array('truck', $vehicleCategories) ? 'checked' : ''; ?>>
+                                <span class="category-badge">Truck</span>
+                            </label>
+                            <label class="vehicle-category-item">
+                                <input type="checkbox" name="vehicleCapability[]" value="bus" <?php echo in_array('bus', $vehicleCategories) ? 'checked' : ''; ?>>
+                                <span class="category-badge">Bus</span>
+                            </label>
                         </div>
                     </div>
 
@@ -727,23 +818,155 @@ try {
     <script src="../js/layout.js"></script>
     <script src="../js/profile.js"></script>
     <script>
-        // Handle license upload
-        document.getElementById('uploadLicenseBtn').addEventListener('click', function() {
+        // ===== ACCOUNT EDIT =====
+        document.getElementById('editAccountBtn')?.addEventListener('click', () => {
+            document.getElementById('editAccountModal').style.display = 'flex';
+        });
+
+        document.getElementById('closeEditModalBtn')?.addEventListener('click', () => {
+            document.getElementById('editAccountModal').style.display = 'none';
+        });
+
+        document.getElementById('cancelEditBtn')?.addEventListener('click', () => {
+            document.getElementById('editAccountModal').style.display = 'none';
+        });
+
+        document.getElementById('editAccountForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            document.getElementById('editAccountForm').submit();
+        });
+
+        document.getElementById('editAccountModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'editAccountModal') {
+                document.getElementById('editAccountModal').style.display = 'none';
+            }
+        });
+
+        // ===== DRIVER EDIT =====
+        document.getElementById('editDriverBtn')?.addEventListener('click', () => {
+            document.getElementById('editDriverModal').style.display = 'flex';
+        });
+
+        document.getElementById('closeDriverModalBtn')?.addEventListener('click', () => {
+            document.getElementById('editDriverModal').style.display = 'none';
+        });
+
+        document.getElementById('cancelDriverEditBtn')?.addEventListener('click', () => {
+            document.getElementById('editDriverModal').style.display = 'none';
+        });
+
+        document.getElementById('editDriverForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            document.getElementById('editDriverForm').submit();
+        });
+
+        document.getElementById('editDriverModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'editDriverModal') {
+                document.getElementById('editDriverModal').style.display = 'none';
+            }
+        });
+
+        // ===== PASSWORD CHANGE =====
+        document.getElementById('changePasswordBtn')?.addEventListener('click', () => {
+            document.getElementById('changePasswordModal').style.display = 'flex';
+        });
+
+        document.getElementById('closePasswordModalBtn')?.addEventListener('click', () => {
+            document.getElementById('changePasswordModal').style.display = 'none';
+        });
+
+        document.getElementById('cancelPasswordBtn')?.addEventListener('click', () => {
+            document.getElementById('changePasswordModal').style.display = 'none';
+        });
+
+        document.getElementById('changePasswordForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            document.getElementById('changePasswordForm').submit();
+        });
+
+        document.getElementById('changePasswordModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'changePasswordModal') {
+                document.getElementById('changePasswordModal').style.display = 'none';
+            }
+        });
+
+        // ===== LICENSE UPLOAD =====
+        document.getElementById('uploadLicenseBtn').addEventListener('click', () => {
             document.getElementById('licenseFileInput').click();
         });
 
-        document.getElementById('licenseFileInput').addEventListener('change', function() {
+        document.getElementById('licenseFileInput').addEventListener('change', function () {
             if (this.files && this.files[0]) {
-                const formData = new FormData(document.getElementById('licenseUploadForm'));
-                formData.append('licenseImage', this.files[0]);
-                
-                fetch('profile.php', {
-                    method: 'POST',
-                    body: formData
-                }).then(() => {
-                    location.reload();
-                });
+                document.getElementById('licenseUploadForm').submit();
             }
+        });
+
+        // ===== AVATAR UPLOAD =====
+        document.getElementById('uploadAvatarBtn')?.addEventListener('click', function () {
+            document.getElementById('avatarFileInput').click();
+        });
+
+        document.getElementById('avatarFileInput')?.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                document.getElementById('avatarUploadForm').submit();
+            }
+        });
+
+        // ===== PASSWORD VISIBILITY TOGGLE =====
+        document.querySelectorAll('.toggle-password-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.getElementById(btn.dataset.target);
+                const icon = btn.querySelector('i');
+                if (target.type === 'password') {
+                    target.type = 'text';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                } else {
+                    target.type = 'password';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                }
+            });
+        });
+
+        // ===== TAB SWITCHING =====
+        document.querySelectorAll('.profile-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // ===== LOGOUT =====
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('logoutModal').style.display = 'flex';
+        });
+
+        document.getElementById('confirmLogout')?.addEventListener('click', () => {
+            window.location.href = '../php/logout.php';
+        });
+
+        document.getElementById('cancelLogout')?.addEventListener('click', () => {
+            document.getElementById('logoutModal').style.display = 'none';
+        });
+
+        document.querySelector('.modal-overlay')?.addEventListener('click', () => {
+            document.getElementById('logoutModal').style.display = 'none';
+        });
+
+        // ===== MOBILE MENU =====
+        document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        document.getElementById('menuToggle')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('collapsed');
         });
     </script>
 </body>

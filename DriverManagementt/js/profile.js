@@ -325,27 +325,27 @@
             originalCheckboxes[checkbox.value] = checkbox.checked;
         });
 
-        // License Upload Functionality
-        if (uploadBtn && fileInput) {
-            uploadBtn.addEventListener('click', function() {
-                fileInput.click();
-            });
+        // // License Upload Functionality
+        // if (uploadBtn && fileInput) {
+        //     uploadBtn.addEventListener('click', function() {
+        //         fileInput.click();
+        //     });
 
-            fileInput.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const licenseImage = document.getElementById('licenseImage');
-                        if (licenseImage) {
-                            licenseImage.src = event.target.result;
-                        }
-                        showToast('License image uploaded successfully');
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        }
+        //     fileInput.addEventListener('change', function(e) {
+        //         const file = e.target.files[0];
+        //         if (file) {
+        //             const reader = new FileReader();
+        //             reader.onload = function(event) {
+        //                 const licenseImage = document.getElementById('licenseImage');
+        //                 if (licenseImage) {
+        //                     licenseImage.src = event.target.result;
+        //                 }
+        //                 showToast('License image uploaded successfully');
+        //             };
+        //             reader.readAsDataURL(file);
+        //         }
+        //     });
+        // }
 
         // Edit button click
         editBtn.addEventListener('click', function() {
@@ -668,5 +668,30 @@
             }
         });
     }
+
+    // ===== LICENSE UPLOAD =====
+    document.getElementById('uploadLicenseBtn').addEventListener('click', () => {
+        document.getElementById('licenseFileInput').click();
+    });
+
+    document.getElementById('licenseFileInput').addEventListener('change', function () {
+        if (this.files && this.files[0]) {
+            // Show loading state
+            const btn = document.getElementById('uploadLicenseBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
+            btn.disabled = true;
+            
+            // Submit the form
+            const form = document.getElementById('licenseUploadForm');
+            form.submit();
+            
+            // Reset after 3 seconds
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 3000);
+        }
+    });
 
 })();
