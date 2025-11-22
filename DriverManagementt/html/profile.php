@@ -422,24 +422,24 @@ if ($licenseRaw) {
                             </button>
                         </div>
 
-                        <form class="profile-form" id="driverForm">
+                                                <form class="profile-form" id="driverForm">
                             <!-- Driver's License Section -->
                             <div class="form-section">
                                 <h3 class="section-title">Driver's License</h3>
                                 
                                 <div class="form-group">
                                     <label for="licenseNumber">License Number</label>
-                                    <input type="text" id="licenseNumber" name="licenseNumber" value="<?php echo htmlspecialchars($user['license_number'] ?? ''); ?>" class="form-input" readonly>
+                                    <input type="text" id="licenseNumber" name="licenseNumber" value="<?php echo htmlspecialchars($user['license_number']); ?>" class="form-input" readonly>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label for="issueDate">Issue Date</label>
-                                        <input type="text" id="issueDate" name="issueDate" value="<?php echo htmlspecialchars($issueDate); ?>" class="form-input" readonly>
+                                        <input type="text" id="issueDate" name="issueDate" value="<?php echo $user['issue_date'] ? date('m/d/Y', strtotime($user['issue_date'])) : ''; ?>" class="form-input" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="expiryDate">Expiry Date</label>
-                                        <input type="text" id="expiryDate" name="expiryDate" value="<?php echo htmlspecialchars($expiryDate); ?>" class="form-input" readonly>
+                                        <input type="text" id="expiryDate" name="expiryDate" value="<?php echo $user['expiry_date'] ? date('m/d/Y', strtotime($user['expiry_date'])) : ''; ?>" class="form-input" readonly>
                                     </div>
                                 </div>
 
@@ -447,64 +447,15 @@ if ($licenseRaw) {
                                     <label for="licenseImage">License Image</label>
                                     <div class="license-upload-container">
                                         <div class="license-preview" id="licensePreview">
-                                            <?php 
-                                            // Fresh calculation every time
-                                            $licenseRaw = $user['license_image'] ?? '';
-                                            $licenseDisplay = '../assets/licence-sample.jpg';
-                                            $licenseFound = false;
-                                            
-                                            if (!empty($licenseRaw) && strpos($licenseRaw, 'licence-sample') === false) {
-                                                // Clean the path
-                                                $clean = ltrim(str_replace(['../', '..\\', '\\'], '/', $licenseRaw), '/');
-                                                $fullPath = __DIR__ . '/../' . $clean;
-                                                
-                                                // Debug: Check multiple locations
-                                                if (file_exists($fullPath)) {
-                                                    $licenseDisplay = '../' . $clean . '?v=' . time();
-                                                    $licenseFound = true;
-                                                } else {
-                                                    // Try alternate paths
-                                                    $altPaths = [
-                                                        __DIR__ . '/../uploads/licenses/' . basename($licenseRaw),
-                                                        __DIR__ . '/../uploads/registration/' . basename($licenseRaw)
-                                                    ];
-                                                    foreach ($altPaths as $altPath) {
-                                                        if (file_exists($altPath)) {
-                                                            $licenseDisplay = '../' . substr($altPath, strlen(__DIR__ . '/../')) . '?v=' . time();
-                                                            $licenseFound = true;
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            ?>
-                                            <img src="<?php echo htmlspecialchars($licenseDisplay); ?>"
-                                                 alt="Driver's License"
-                                                 class="license-image"
-                                                 id="licenseImage"
-                                                 data-original="<?php echo htmlspecialchars($licenseRaw); ?>"
-                                                 onerror="console.log('Image failed:', this.src); this.src='../assets/licence-sample.jpg';">
+                                            <img src="<?php echo htmlspecialchars($user['license_image'] ?: '../assets/license-sample.svg'); ?>" alt="Driver's License" class="license-image" id="licenseImage">
                                         </div>
-                                        <form id="licenseUploadForm" method="POST" enctype="multipart/form-data">
-                                            <input type="hidden" name="action" value="upload_license">
-                                            <button type="button" class="upload-btn" id="uploadLicenseBtn">
-                                                <i class="fa-solid fa-upload"></i>
-                                                Upload New
-                                            </button>
-                                            <input type="file" name="licenseImage" id="licenseFileInput" accept="image/*" style="display: none;">
-                                        </form>
+                                        <button type="button" class="upload-btn" id="uploadLicenseBtn">
+                                            <i class="fa-solid fa-upload"></i>
+                                            Upload New
+                                        </button>
+                                        <input type="file" id="licenseFileInput" accept="image/jpeg,image/png,image/jpg,image/gif" style="display: none;">
+                                        <p class="upload-hint">Max 5MB • JPG, PNG, GIF</p>
                                     </div>
-                                    <?php if ($licenseFound): ?>
-                                        <p style="margin-top:8px;font-size:12px;color:#666;">
-                                            <i class="fa-solid fa-check-circle" style="color:#2c5f2d;"></i>
-                                            License uploaded: <?php echo basename($licenseRaw); ?>
-                                        </p>
-                                    <?php else: ?>
-                                        <p style="margin-top:8px;font-size:12px;color:#999;">
-                                            <i class="fa-solid fa-info-circle"></i>
-                                            No license image uploaded yet
-                                        </p>
-                                    <?php endif; ?>
                                 </div>
 
                                 <div class="form-group">
