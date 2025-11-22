@@ -5,7 +5,7 @@
     // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
         initHistoryTabs();
-        initRatingFilter();
+        initTransactionHistory();
     });
 
     // History Tab Switching
@@ -38,34 +38,11 @@
         });
     }
 
-    // Rating Filter for Passenger Feedback
-    function initRatingFilter() {
-        const ratingFilter = document.getElementById('ratingFilter');
-        
-        if (ratingFilter) {
-            ratingFilter.addEventListener('change', function() {
-                const selectedRating = this.value;
-                const feedbackItems = document.querySelectorAll('.feedback-item');
-
-                if (selectedRating === 'all') {
-                    // Show all feedback items
-                    feedbackItems.forEach(item => {
-                        item.style.display = 'flex';
-                    });
-                } else {
-                    // Filter by rating
-                    feedbackItems.forEach(item => {
-                        const stars = item.querySelectorAll('.feedback-stars i.fa-solid').length;
-                        
-                        if (stars === parseInt(selectedRating)) {
-                            item.style.display = 'flex';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                }
-            });
-        }
+    // Transaction History - No specific filtering needed for now
+    // Can be extended in the future for date range filtering, payment method filtering, etc.
+    function initTransactionHistory() {
+        // Placeholder for future transaction history features
+        console.log('Transaction History tab initialized');
     }
 
     // Action Button Click Handler (for Reports/Complaints)

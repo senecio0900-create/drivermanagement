@@ -49,46 +49,83 @@
             </form>
 
             <div class="forgot-password">
-                <a href="#">Forgot Password?</a>
+                <a href="#" id="forgotPasswordLink">Forgot Password?</a>
             </div>
         </div>
     </div>
 
-    <script>
-        // Static demo account
-        const DEMO_CREDENTIALS = {
-            email: 'driver@gmail.com',
-            password: 'pass1010'
-        };
+    <!-- Forgot Password Modal -->
+    <div class="forgot-password-modal" id="forgotPasswordModal">
+        <div class="forgot-modal-overlay"></div>
+        <div class="forgot-modal-content">
+            <button class="modal-close-btn" id="closeForgotModal" aria-label="Close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
 
-        // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            
-            // Validate credentials
-            if (email === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
-                console.log('✅ Login successful!');
-                
-                // Store login session (optional)
-                sessionStorage.setItem('isLoggedIn', 'true');
-                sessionStorage.setItem('userEmail', email);
-                
-                // Redirect to dashboard
-                window.location.href = 'dashboard.html';
-            } else {
-                alert('Invalid email or password!\n\nDemo Account:\nEmail: driver@gmail.com\nPassword: pass1010');
-                console.log('❌ Login failed - Invalid credentials');
-            }
-        });
+            <div class="forgot-modal-body">
+                <!-- Logo Section -->
+                <div class="forgot-logo-section">
+                    <img src="../assets/brand-logo.png" alt="Journeolink Logo" class="forgot-logo">
+                    <div class="forgot-brand-text">Journeolink</div>
+                </div>
 
-        // Check if already logged in
-        if (sessionStorage.getItem('isLoggedIn') === 'true') {
-            console.log('User already logged in, redirecting to dashboard...');
-            window.location.href = 'dashboard.html';
-        }
-    </script>
+                <!-- Form Section -->
+                <div id="forgotFormSection">
+                    <h2 class="forgot-title">Reset Your Password</h2>
+                    <p class="forgot-subtitle">Enter your email address and we'll send you instructions to reset your password</p>
+
+                    <form id="forgotPasswordForm" class="forgot-form">
+                        <div class="form-group">
+                            <label for="resetEmail">Email Address</label>
+                            <input 
+                                type="email" 
+                                id="resetEmail" 
+                                name="resetEmail" 
+                                placeholder="Enter your email address" 
+                                required>
+                        </div>
+
+                        <button type="submit" class="btn-reset" id="resetBtn">
+                            <span class="btn-text">Send Reset Link</span>
+                            <span class="btn-loader" style="display: none;">
+                                <svg class="spinner" viewBox="0 0 50 50">
+                                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                                </svg>
+                                <span>Sending...</span>
+                            </span>
+                        </button>
+
+                        <div class="back-to-login">
+                            <a href="#" id="backToLogin">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10 12L6 8l4-4"/>
+                                </svg>
+                                Back to Login
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Success Message Section -->
+                <div id="resetSuccessSection" style="display: none;">
+                    <div class="success-animation">
+                        <svg class="checkmark" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
+                    </div>
+                    <h3 class="success-title">Check Your Email</h3>
+                    <p class="success-message">We've sent password reset instructions to</p>
+                    <p class="success-email" id="resetEmailDisplay"></p>
+                    <p class="success-note">If you don't see the email, check your spam folder or try again.</p>
+                    <button class="btn-reset" id="backToLoginFromSuccess">Back to Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/login.js"></script>
 </body>
 </html>

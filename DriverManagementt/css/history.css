@@ -76,6 +76,10 @@
     margin-bottom: 32px;
 }
 
+.stats-grid.transaction-stats {
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .stats-grid.four-cols {
     grid-template-columns: repeat(4, 1fr);
 }
@@ -125,6 +129,12 @@
 
 .stat-change.negative {
     color: #dc3545;
+}
+
+.stat-subtext {
+    font-size: 14px;
+    color: #868e96;
+    font-weight: 500;
 }
 
 /* Table Section */
@@ -182,7 +192,7 @@
 .data-table td {
     padding: 18px 20px;
     font-size: 14px;
-    color: #495057;
+    
 }
 
 /* Status Badges */
@@ -204,6 +214,17 @@
 .status-badge.cancelled {
     background-color: #dc3545;
     color: #ffffff;
+}
+
+.status-badge.pending {
+    background-color: #f59e0b;
+    color: #ffffff;
+}
+
+/* Amount Styling */
+.amount-positive {
+    color: #6AA03E;
+    font-weight: 600;
 }
 
 /* Action Button */
@@ -634,6 +655,10 @@
         gap: 14px;
     }
 
+    .stats-grid.transaction-stats {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
     .stats-grid.four-cols {
         grid-template-columns: repeat(4, 1fr) !important;
         gap: 12px;
@@ -738,6 +763,10 @@
     .stats-grid {
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 10px;
+    }
+
+    .stats-grid.transaction-stats {
+        grid-template-columns: repeat(3, 1fr) !important;
     }
 
     .stats-grid.four-cols {
@@ -860,6 +889,10 @@
     .stats-grid {
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 8px;
+    }
+
+    .stats-grid.transaction-stats {
+        grid-template-columns: repeat(3, 1fr) !important;
     }
 
     .stats-grid.four-cols {

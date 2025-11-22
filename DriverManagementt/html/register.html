@@ -497,6 +497,37 @@
         </div>
     </div>
 
+    <!-- Loading Modal -->
+    <div id="registrationLoadingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-left loading-modal-left">
+                <div class="logo-section-center">
+                    <img src="../assets/brand-logo.png" alt="Journeolink Logo" class="logo">
+                    <div class="brand-text">Journeolink</div>
+                </div>
+
+                <div class="loading-content">
+                    <div class="animation-wrapper">
+                        <div id="loadingSpinner" class="spinner-wrapper">
+                            <svg class="loading-spinner" viewBox="0 0 50 50">
+                                <circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                            </svg>
+                        </div>
+                        <div id="successCheckmark" class="checkmark-wrapper" style="display: none;">
+                            <svg class="checkmark" viewBox="0 0 52 52">
+                                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                                <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h1 class="loading-title" id="loadingTitle">Processing Your Application</h1>
+                    <p class="loading-message" id="loadingMessage">Please wait while we submit your registration. This may take a few moments...</p>
+                </div>
+            </div>
+            <div class="modal-right"></div>
+        </div>
+    </div>
+
     <!-- Registration Success Modal -->
     <div id="registrationSuccessModal" class="modal">
         <div class="modal-content">
@@ -507,8 +538,7 @@
                 </div>
 
                 <div class="success-content">
-                    <div class="success-emoji-inline">🥳</div>
-                    <h1 class="success-title">Great Job! Your Application Is In <span class="emoji-icon">🥳</span></h1>
+                    <h1 class="success-title">Great Job! Your Application Is In</h1>
                     <p class="success-message">
                         You are one step away from becoming a Journeolink Driver-Partner! Our team 
                         will review your details and notify you once verification is complete 
@@ -546,6 +576,330 @@
             </div>
 
             <div class="modal-right"></div>
+        </div>
+    </div>
+
+    <!-- Terms and Conditions Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content terms-modal-content">
+            <div class="terms-modal-box">
+                <div class="terms-header">
+                    <div class="terms-logo-section">
+                        <img src="../assets/brand-logo.png" alt="Journeolink Logo" class="logo">
+                        <div class="brand-text">Journeolink</div>
+                    </div>
+                    <button class="terms-close-btn" onclick="closeTerms()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="terms-body">
+                    <h1 class="terms-title">TERMS AND CONDITIONS</h1>
+                    
+                    <div class="terms-meta">
+                        <p><strong>JourneoLink.ph</strong></p>
+                        <p>Effective Date: August 22, 2025</p>
+                        <p>Last Updated: August 22, 2025</p>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>1. ACCEPTANCE OF TERMS</h2>
+                        <p>By accessing and using JourneoLink.ph ("the Platform"), you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services.</p>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>2. USER ACCOUNTS AND REGISTRATION</h2>
+                        <h3>2.1 Account Types</h3>
+                        <ul>
+                            <li><strong>Clients/Travelers:</strong> Must register using Google, Facebook, or other approved authentication methods</li>
+                            <li><strong>Host (Business Owners):</strong> Must provide valid business credentials and permits for verification</li>
+                            <li><strong>Drivers:</strong> Must submit complete documentation including valid driver's license, experience records, identification photos, and vehicle capabilities</li>
+                            <li><strong>Admin:</strong> Platform administrators responsible for verification and approval processes</li>
+                        </ul>
+                        
+                        <h3>2.2 Account Responsibilities</h3>
+                        <ul>
+                            <li>You must provide accurate and complete information during registration</li>
+                            <li>You are responsible for maintaining the confidentiality of your account credentials</li>
+                            <li>You must notify us immediately of any unauthorized access to your account</li>
+                            <li>All business owners must possess valid business permits and provide proof of ownership</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>3. CAR RENTAL SERVICES</h2>
+                        <h3>3.1 Reservation Process</h3>
+                        <ul>
+                            <li>Vehicle reservations can be made through the Platform for available cars (4-seater, 8-seater, vans, etc.)</li>
+                            <li>Maximum rental period is 7 days</li>
+                            <li>Reservations require a refundable downpayment</li>
+                            <li>Final rental agreements must be completed with digital contract signing on the Platform</li>
+                        </ul>
+                        
+                        <h3>3.2 Cancellation and Refund Policy</h3>
+                        <ul>
+                            <li><strong>Full refund:</strong> Available if cancelled within [specify timeframe] of reservation</li>
+                            <li><strong>Partial refund:</strong> 50% of the total payment will be refunded if cancelled after the initial period</li>
+                            <li><strong>No refund:</strong> Cancellations made [specify timeframe] before pickup time are non-refundable</li>
+                        </ul>
+                        
+                        <h3>3.3 Vehicle Pickup and Return</h3>
+                        <ul>
+                            <li>Vehicles must be picked up at the designated fixed location specified during reservation</li>
+                            <li>Valid government-issued ID must be presented at pickup</li>
+                            <li>Vehicle must be returned at the agreed time and location</li>
+                            <li>Late returns may incur additional charges</li>
+                        </ul>
+                        
+                        <h3>3.4 Fuel and Toll Fees</h3>
+                        <ul>
+                            <li><strong>Fuel:</strong> The renter is responsible for refueling the vehicle to the same level as at pickup. Failure to do so will result in refueling charges plus a service fee</li>
+                            <li><strong>Toll Fees:</strong> All toll fees incurred during the rental period are the responsibility of the renter</li>
+                        </ul>
+                        
+                        <h3>3.5 Vehicle Condition and Maintenance</h3>
+                        <ul>
+                            <li>Renters must inspect the vehicle before departure and report any existing damage</li>
+                            <li>Regular maintenance is the responsibility of the vehicle owner</li>
+                            <li>Renters must treat the vehicle with reasonable care</li>
+                        </ul>
+                        
+                        <h3>3.6 Accident and Damage Policy</h3>
+                        <ul>
+                            <li>In case of accident or damage, renters must immediately notify JourneoLink.ph and local authorities</li>
+                            <li><strong>Liability:</strong> The vehicle owner is primarily liable for damages as per the agreement between the owner and JourneoLink.ph. However, renters may be held financially responsible for damages caused by negligence, reckless driving, or violation of traffic laws</li>
+                            <li>Comprehensive incident reports must be filed within 24 hours</li>
+                            <li>Insurance coverage details will be specified in the rental contract</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>4. DRIVER-FOR-HIRE SERVICES</h2>
+                        <h3>4.1 Driver Verification</h3>
+                        <ul>
+                            <li>All drivers are verified and approved by JourneoLink.ph administrators</li>
+                            <li>Driver details including license, experience, photos, and vehicle capabilities are displayed on the Platform</li>
+                            <li>Drivers must use QR code verification upon meeting clients for security assurance</li>
+                        </ul>
+                        
+                        <h3>4.2 Driver Services</h3>
+                        <ul>
+                            <li>Driver services are optional and available for an additional fee</li>
+                            <li>Payment for driver services is separate from vehicle rental fees</li>
+                            <li>Driver availability is subject to scheduling and confirmation</li>
+                        </ul>
+                        
+                        <h3>4.3 Client-Driver Interaction</h3>
+                        <ul>
+                            <li>Clients must scan the driver's QR code upon meeting to confirm identity</li>
+                            <li>Clients must treat drivers with respect and follow reasonable instructions</li>
+                            <li>Any issues or complaints regarding driver conduct must be reported immediately</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>5. TOURIST SPOTS AND CONTENT</h2>
+                        <h3>5.1 Information Accuracy</h3>
+                        <ul>
+                            <li>Tourist spot information, including entrance fees, distances, photos, and schedules, is provided by verified business owners and administrators</li>
+                            <li>While we strive for accuracy, JourneoLink.ph does not guarantee the completeness or real-time accuracy of all destination information</li>
+                            <li>Users should verify critical information before traveling</li>
+                        </ul>
+                        
+                        <h3>5.2 Business Owner Responsibilities</h3>
+                        <ul>
+                            <li>Business owners (Hosts) must provide accurate and up-to-date information about their establishments</li>
+                            <li>Hosts are responsible for updating changes in fees, schedules, and facilities</li>
+                            <li>False or misleading information may result in account suspension</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>6. PAYMENT TERMS</h2>
+                        <h3>6.1 Payment Methods</h3>
+                        <ul>
+                            <li>Accepted payment methods will be specified on the Platform</li>
+                            <li>All payments must be completed through the Platform's secure payment system</li>
+                        </ul>
+                        
+                        <h3>6.2 Pricing</h3>
+                        <ul>
+                            <li>Vehicle rental prices are based on vehicle type and rental duration</li>
+                            <li>Driver fees are calculated separately and added to the total cost</li>
+                            <li>All prices are displayed in Philippine Peso (PHP)</li>
+                            <li>Prices are subject to change with notice</li>
+                        </ul>
+                        
+                        <h3>6.3 Downpayment</h3>
+                        <ul>
+                            <li>A refundable downpayment is required for all vehicle reservations</li>
+                            <li>Downpayment amount varies based on vehicle type and rental duration</li>
+                            <li>Downpayment will be refunded according to the cancellation policy</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>7. USER CONDUCT</h2>
+                        <h3>7.1 Prohibited Activities</h3>
+                        <p>Users must NOT:</p>
+                        <ul>
+                            <li>Provide false information during registration or booking</li>
+                            <li>Use the Platform for illegal activities</li>
+                            <li>Damage or misuse rented vehicles</li>
+                            <li>Harass or threaten other users, drivers, or staff</li>
+                            <li>Attempt to circumvent the Platform by conducting transactions outside the system</li>
+                            <li>Share account credentials with others</li>
+                        </ul>
+                        
+                        <h3>7.2 Consequences</h3>
+                        <p>Violation of these terms may result in:</p>
+                        <ul>
+                            <li>Account suspension or termination</li>
+                            <li>Forfeiture of deposits and payments</li>
+                            <li>Legal action and liability for damages</li>
+                            <li>Reporting to relevant authorities</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>8. PLATFORM LIMITATIONS</h2>
+                        <h3>8.1 Service Scope</h3>
+                        <ul>
+                            <li>JourneoLink.ph provides reservation services only, not ride-hailing services</li>
+                            <li>Internet connection is required to access all Platform features</li>
+                            <li>The Platform serves as an intermediary between clients, vehicle owners, and drivers</li>
+                        </ul>
+                        
+                        <h3>8.2 Geographic Coverage</h3>
+                        <ul>
+                            <li>Services are available in areas covered by the Platform's network</li>
+                            <li>Tourist spot recommendations and car rental services may vary by location</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>9. PRIVACY AND DATA PROTECTION</h2>
+                        <h3>9.1 Information Collection</h3>
+                        <ul>
+                            <li>We collect personal information necessary for providing our services, including names, contact details, IDs, payment information, and location data</li>
+                            <li>Business owners provide business permits and establishment details</li>
+                            <li>Drivers provide licenses, experience records, and identification documents</li>
+                        </ul>
+                        
+                        <h3>9.2 Information Use</h3>
+                        <ul>
+                            <li>Your information is used to facilitate reservations, verify identities, process payments, and improve our services</li>
+                            <li>We maintain a secure database of verified users, drivers, and vehicle information</li>
+                        </ul>
+                        
+                        <h3>9.3 Data Security</h3>
+                        <ul>
+                            <li>We implement reasonable security measures to protect your information</li>
+                            <li>However, no system is completely secure, and we cannot guarantee absolute security</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>10. LIABILITY AND DISCLAIMERS</h2>
+                        <h3>10.1 Limited Liability</h3>
+                        <ul>
+                            <li>JourneoLink.ph acts as a platform connecting clients with vehicle owners and drivers</li>
+                            <li>We are not liable for accidents, injuries, or damages occurring during vehicle use</li>
+                            <li>We are not responsible for the condition or quality of vehicles or the conduct of drivers beyond our verification process</li>
+                        </ul>
+                        
+                        <h3>10.2 Use at Your Own Risk</h3>
+                        <ul>
+                            <li>Users acknowledge that travel and vehicle rental involve inherent risks</li>
+                            <li>Users are responsible for their own safety and decision-making</li>
+                        </ul>
+                        
+                        <h3>10.3 Third-Party Services</h3>
+                        <ul>
+                            <li>The Platform integrates third-party services (Maps API, payment processors, social media authentication)</li>
+                            <li>We are not responsible for the availability or performance of third-party services</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>11. INTELLECTUAL PROPERTY</h2>
+                        <ul>
+                            <li>All content on JourneoLink.ph, including logos, designs, text, and software, is owned by JourneoLink.ph or its licensors</li>
+                            <li>Users may not reproduce, distribute, or create derivative works without permission</li>
+                            <li>User-generated content (reviews, photos) remains the property of the user but grants JourneoLink.ph a license to use for Platform purposes</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>12. DISPUTE RESOLUTION</h2>
+                        <h3>12.1 Complaints</h3>
+                        <ul>
+                            <li>Complaints should be submitted through the Platform's official channels</li>
+                            <li>We will investigate and respond to complaints within a reasonable timeframe</li>
+                        </ul>
+                        
+                        <h3>12.2 Governing Law</h3>
+                        <ul>
+                            <li>These Terms and Conditions are governed by the laws of the Republic of the Philippines</li>
+                            <li>Any disputes will be resolved through arbitration or in courts located in [specify jurisdiction]</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>13. MODIFICATIONS TO TERMS</h2>
+                        <ul>
+                            <li>JourneoLink.ph reserves the right to modify these Terms and Conditions at any time</li>
+                            <li>Users will be notified of significant changes through the Platform</li>
+                            <li>Continued use of the Platform after changes constitutes acceptance of the new terms</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>14. TERMINATION</h2>
+                        <h3>14.1 By User</h3>
+                        <ul>
+                            <li>Users may terminate their accounts at any time by contacting customer support</li>
+                            <li>Outstanding reservations and payments must be resolved before termination</li>
+                        </ul>
+                        
+                        <h3>14.2 By JourneoLink.ph</h3>
+                        <ul>
+                            <li>We reserve the right to suspend or terminate accounts for violation of these terms</li>
+                            <li>We may also terminate services for operational or legal reasons with notice when possible</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>15. CONTACT INFORMATION</h2>
+                        <p>For questions, concerns, or support regarding these Terms and Conditions:</p>
+                        <p><strong>JourneoLink.ph Support Team</strong><br>
+                        Email: [insert email]<br>
+                        Phone: [insert phone number]<br>
+                        Website: JourneoLink.ph</p>
+                    </div>
+
+                    <div class="terms-section">
+                        <h2>16. ACKNOWLEDGMENT</h2>
+                        <p>By using JourneoLink.ph, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree, please discontinue use of the Platform immediately.</p>
+                    </div>
+
+                    <div class="terms-footer">
+                        <p>© 2025 JourneoLink.ph. All Rights Reserved.</p>
+                    </div>
+                </div>
+                
+                <div class="terms-agreement">
+                    <label class="terms-agreement-label">
+                        <input type="checkbox" id="termsAgreementCheck" class="terms-agreement-checkbox">
+                        <span class="terms-agreement-text">I have read and agree to the Terms and Conditions</span>
+                    </label>
+                    <button type="button" class="btn-terms-agree" id="btnTermsAgree" disabled onclick="acceptTerms()">
+                        I Agree
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

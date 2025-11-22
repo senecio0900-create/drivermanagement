@@ -163,6 +163,10 @@ document.getElementById('reviewApplicationForm').addEventListener('submit', func
     
     console.log('✅ Validation passed, submitting registration...');
     
+    // Show loading modal
+    hideModal('reviewApplicationModal');
+    showModal('registrationLoadingModal');
+    
     // Final submission
     const completeUserData = {
         ...registrationData,
@@ -178,21 +182,28 @@ document.getElementById('reviewApplicationForm').addEventListener('submit', func
         .then(response => {
             if (response.success) {
                 console.log('✅ SUCCESS: Registration submitted successfully!');
-                // Show success modal
-                hideModal('reviewApplicationModal');
-                showModal('registrationSuccessModal');
+                // Show checkmark animation
+                showCheckmarkAnimation();
+                // Wait 2 seconds before showing success modal
+                setTimeout(() => {
+                    hideModal('registrationLoadingModal');
+                    showModal('registrationSuccessModal');
+                    resetLoadingModal();
+                }, 2000);
             } else {
                 console.log('❌ FAILURE: Registration failed');
                 // Show error modal
-                hideModal('reviewApplicationModal');
+                hideModal('registrationLoadingModal');
                 showModal('registrationErrorModal');
+                resetLoadingModal();
             }
         })
         .catch(error => {
             console.error('❌ ERROR: Registration submission failed:', error);
             // Show error modal
-            hideModal('reviewApplicationModal');
+            hideModal('registrationLoadingModal');
             showModal('registrationErrorModal');
+            resetLoadingModal();
         });
     
     // Here you would send the complete data to your backend
@@ -345,6 +356,40 @@ function validateCompleteRegistration() {
     };
 }
 
+// Show checkmark animation
+function showCheckmarkAnimation() {
+    const spinner = document.getElementById('loadingSpinner');
+    const checkmark = document.getElementById('successCheckmark');
+    const title = document.getElementById('loadingTitle');
+    const message = document.getElementById('loadingMessage');
+    
+    // Hide spinner
+    spinner.style.display = 'none';
+    
+    // Show checkmark
+    checkmark.style.display = 'flex';
+    
+    // Update text
+    title.textContent = 'Application Submitted Successfully!';
+    message.textContent = 'Your registration has been received and is now under review.';
+}
+
+// Reset loading modal to initial state
+function resetLoadingModal() {
+    const spinner = document.getElementById('loadingSpinner');
+    const checkmark = document.getElementById('successCheckmark');
+    const title = document.getElementById('loadingTitle');
+    const message = document.getElementById('loadingMessage');
+    
+    // Reset visibility
+    spinner.style.display = 'flex';
+    checkmark.style.display = 'none';
+    
+    // Reset text
+    title.textContent = 'Processing Your Application';
+    message.textContent = 'Please wait while we submit your registration. This may take a few moments...';
+}
+
 // Simulate backend submission (replace with actual API call)
 function submitRegistration(userData) {
     return new Promise((resolve, reject) => {
@@ -377,3 +422,62 @@ function submitRegistration(userData) {
         }, 1500);
     });
 }
+
+// Terms and Conditions Modal Functions
+function openTermsModal(e) {
+    if (e) {
+        e.preventDefault();
+    }
+    const termsModal = document.getElementById('termsModal');
+    if (termsModal) {
+        termsModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeTerms() {
+    const termsModal = document.getElementById('termsModal');
+    if (termsModal) {
+        termsModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function acceptTerms() {
+    const checkbox = document.getElementById('termsAgreementCheck');
+    if (checkbox && checkbox.checked) {
+        closeTerms();
+        // Optionally check the main terms checkbox
+        const mainTermsCheckbox = document.getElementById('termsAccept') || document.getElementById('review-termsAccept');
+        if (mainTermsCheckbox && !mainTermsCheckbox.disabled) {
+            mainTermsCheckbox.checked = true;
+        }
+    }
+}
+
+// Add event listeners for all terms links
+document.addEventListener('DOMContentLoaded', function() {
+    const termsLinks = document.querySelectorAll('.terms-link');
+    termsLinks.forEach(link => {
+        link.addEventListener('click', openTermsModal);
+    });
+
+    // Close modal when clicking outside
+    const termsModal = document.getElementById('termsModal');
+    if (termsModal) {
+        termsModal.addEventListener('click', function(e) {
+            if (e.target === termsModal) {
+                closeTerms();
+            }
+        });
+    }
+
+    // Enable/disable agree button based on checkbox
+    const termsAgreementCheck = document.getElementById('termsAgreementCheck');
+    const btnTermsAgree = document.getElementById('btnTermsAgree');
+    if (termsAgreementCheck && btnTermsAgree) {
+        termsAgreementCheck.addEventListener('change', function() {
+            btnTermsAgree.disabled = !this.checked;
+        });
+    }
+});

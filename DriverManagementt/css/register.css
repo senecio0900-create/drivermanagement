@@ -725,6 +725,182 @@ input[readonly]:focus {
     }
 }
 
+/* Loading Modal Styles */
+.loading-modal-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.loading-content {
+    max-width: 500px;
+}
+
+.animation-wrapper {
+    position: relative;
+    height: 80px;
+    width: 80px;
+    margin: 0 auto 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-wrapper,
+.checkmark-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-spinner {
+    width: 80px;
+    height: 80px;
+    animation: rotate-spinner 2s linear infinite;
+}
+
+.spinner-path {
+    stroke: #3F562C;
+    stroke-linecap: round;
+    animation: dash-spinner 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate-spinner {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash-spinner {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+.checkmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 3;
+    stroke: #3F562C;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0 0 0 #3F562C;
+    animation: fill-checkmark 0.4s ease-in-out 0.4s forwards, scale-checkmark 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke-miterlimit: 10;
+    stroke: #3F562C;
+    fill: none;
+    animation: stroke-checkmark 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: #3F562C;
+    stroke-width: 3;
+    animation: stroke-checkmark 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke-checkmark {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale-checkmark {
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes fill-checkmark {
+    100% {
+        box-shadow: inset 0 0 0 40px rgba(63, 86, 44, 0.1);
+    }
+}
+
+.loading-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+}
+
+.loading-message {
+    font-size: 16px;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* Loading Modal Responsive */
+@media (max-width: 768px) {
+    .loading-title {
+        font-size: 26px;
+    }
+
+    .loading-message {
+        font-size: 15px;
+    }
+
+    .animation-wrapper {
+        height: 70px;
+        width: 70px;
+    }
+
+    .loading-spinner,
+    .checkmark {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loading-title {
+        font-size: 24px;
+    }
+
+    .loading-message {
+        font-size: 14px;
+    }
+
+    .animation-wrapper {
+        height: 60px;
+        width: 60px;
+    }
+
+    .loading-spinner,
+    .checkmark {
+        width: 60px;
+        height: 60px;
+    }
+}
+
 /* Success Modal Styles */
 .success-modal-left {
     display: flex;
@@ -758,37 +934,12 @@ input[readonly]:focus {
     max-width: 600px;
 }
 
-.success-emoji-inline {
-    font-size: 56px;
-    margin-bottom: 20px;
-}
-
 .success-title {
     font-size: 42px;
     font-weight: 700;
     color: #1a1a1a;
     margin-bottom: 20px;
     line-height: 1.3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.emoji-icon {
-    font-size: 48px;
-    display: inline-block;
-    animation: bounce 1s ease infinite;
-}
-
-@keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
 }
 
 .success-message {
@@ -913,17 +1064,9 @@ input[readonly]:focus {
     .success-title {
         font-size: 32px;
     }
-
-    .emoji-icon {
-        font-size: 36px;
-    }
 }
 
 @media (max-width: 480px) {
-    .success-emoji-inline {
-        font-size: 44px;
-    }
-
     .logo-section-center .logo {
         width: 40px;
         height: 40px;
@@ -935,11 +1078,6 @@ input[readonly]:focus {
 
     .success-title {
         font-size: 26px;
-        gap: 8px;
-    }
-
-    .emoji-icon {
-        font-size: 30px;
     }
 
     .error-title {
@@ -956,5 +1094,347 @@ input[readonly]:focus {
     .btn-home-error {
         padding: 14px 24px;
         font-size: 15px;
+    }
+}
+
+/* Terms and Conditions Modal */
+.terms-modal-content {
+    max-width: 100%;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.terms-modal-box {
+    width: 100%;
+    max-width: 900px;
+    max-height: 85vh;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.terms-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 40px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.terms-logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.terms-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    transition: all 0.3s;
+    border-radius: 6px;
+}
+
+.terms-close-btn:hover {
+    background: #f3f4f6;
+    color: #1f2937;
+}
+
+.terms-close-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+.terms-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 48px;
+    background: #ffffff;
+}
+
+.terms-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #B4A26C;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.terms-meta {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.terms-meta p {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 4px;
+    line-height: 1.6;
+}
+
+.terms-meta strong {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.terms-section {
+    margin-bottom: 32px;
+}
+
+.terms-section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.terms-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.terms-section p {
+    font-size: 15px;
+    color: #4b5563;
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+
+.terms-section ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 16px;
+}
+
+.terms-section ul li {
+    font-size: 15px;
+    color: #4b5563;
+    line-height: 1.7;
+    margin-bottom: 10px;
+    padding-left: 24px;
+    position: relative;
+}
+
+.terms-section ul li:before {
+    content: "•";
+    position: absolute;
+    left: 8px;
+    color: #3F562C;
+    font-weight: bold;
+}
+
+.terms-section ul li strong {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.terms-footer {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 2px solid #e5e7eb;
+    text-align: center;
+}
+
+.terms-footer p {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+/* Terms Agreement Section */
+.terms-agreement {
+    padding: 20px 48px;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.terms-agreement-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.terms-agreement-checkbox {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.terms-agreement-text {
+    font-size: 15px;
+    color: #374151;
+    line-height: 1.5;
+    user-select: none;
+}
+
+.btn-terms-agree {
+    width: 100%;
+    padding: 14px 24px;
+    background: #3F562C;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-terms-agree:hover:not(:disabled) {
+    background: #2d3f20;
+    transform: translateY(-1px);
+}
+
+.btn-terms-agree:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Terms Link Styling */
+.terms-link {
+    color: #3F562C;
+    text-decoration: underline;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.terms-link:hover {
+    color: #2d3f20;
+    text-decoration: underline;
+}
+
+/* Terms Modal Responsive */
+@media (max-width: 768px) {
+    .terms-modal-content {
+        padding: 20px 16px;
+    }
+
+    .terms-modal-box {
+        max-height: 90vh;
+        border-radius: 8px;
+    }
+
+    .terms-header {
+        padding: 20px 24px;
+    }
+
+    .terms-body {
+        padding: 24px;
+    }
+
+    .terms-agreement {
+        padding: 16px 24px;
+    }
+
+    .terms-title {
+        font-size: 28px;
+    }
+
+    .terms-section h2 {
+        font-size: 18px;
+    }
+
+    .terms-section h3 {
+        font-size: 15px;
+    }
+
+    .terms-section p,
+    .terms-section ul li {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .terms-modal-content {
+        padding: 12px;
+    }
+
+    .terms-modal-box {
+        max-height: 95vh;
+        border-radius: 6px;
+    }
+
+    .terms-header {
+        padding: 16px 20px;
+    }
+
+    .terms-logo-section .logo {
+        width: 32px;
+        height: 32px;
+    }
+
+    .terms-logo-section .brand-text {
+        font-size: 18px;
+    }
+
+    .terms-body {
+        padding: 20px;
+    }
+
+    .terms-agreement {
+        padding: 16px 20px;
+    }
+
+    .btn-terms-agree {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+
+    .terms-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .terms-section h2 {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .terms-section h3 {
+        font-size: 14px;
+        margin-top: 16px;
+    }
+
+    .terms-section p,
+    .terms-section ul li {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .terms-section ul li {
+        padding-left: 20px;
     }
 }
